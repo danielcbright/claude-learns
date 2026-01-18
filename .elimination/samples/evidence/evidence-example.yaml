@@ -1,0 +1,72 @@
+# Evidence File Template
+# One file per piece of evidence in .elimination/active/evidence/
+
+id: "ev-004"
+type: log_analysis  # observation, log_analysis, test_result, metric, code_inspection, user_report
+
+# What was observed
+description: "Lock contention detected in SharedCache.get() calls during high-load periods"
+details: |
+  Added mutex logging to SharedCache.get() method.
+  During error spikes, observed:
+  - Average lock wait time: 450ms
+  - Max lock wait time: 2.3s
+  - Lock contention rate: 78% of requests
+  - Strong correlation between wait time and 500 errors
+
+# Test that produced this evidence
+test_performed:
+  description: "Added timing instrumentation around SharedCache mutex"
+  methodology: |
+    1. Modified SharedCache.get() to log lock acquisition time
+    2. Deployed to staging with production-like load
+    3. Generated 500 concurrent requests over 5 minutes
+    4. Correlated lock times with error responses
+  reproducible: true
+
+# What this evidence bears on
+bearing:
+  # Primary hypothesis this affects
+  - hypothesis_id: "hyp-001"
+    direction: supports  # supports, contradicts, neutral
+    weight: 0.80  # 0.1-1.0, strength of evidence
+    reasoning: "High lock contention times directly correlate with errors, supporting race condition hypothesis"
+    confidence_before: 0.58
+    confidence_after: 0.78
+  
+  # Can affect multiple hypotheses
+  - hypothesis_id: "hyp-004"
+    direction: contradicts
+    weight: 0.40
+    reasoning: "Processing delay is local (lock contention), not upstream service"
+    confidence_before: 0.50
+    confidence_after: 0.42
+
+# Source references
+source_ref:
+  type: logs
+  location: "staging-api-server-03"
+  files:
+    - path: "var/log/api/cache-timing.log"
+      lines: "1450-1892"
+  commands_run:
+    - "grep 'lock_wait' cache-timing.log | awk '{print $4}' | sort -n"
+  dashboards:
+    - name: "Cache Performance"
+      url: "https://grafana.internal/d/cache-perf"
+
+# Quality indicators
+quality:
+  reliability: high  # high, medium, low
+  reproducibility: verified  # verified, likely, uncertain
+  sample_size: 500
+  statistical_significance: true
+  potential_confounders:
+    - "Load testing may not perfectly replicate production patterns"
+
+# Metadata
+metadata:
+  recorded_at: "2026-01-18T10:55:00Z"
+  recorded_by: "claude"
+  session_id: "session-2026-01-18-001"
+  iteration: 4

@@ -1,0 +1,235 @@
+# Hypothesis Templates by Domain
+# Used during Phase 1 of /eliminate to generate comprehensive hypothesis sets
+
+templates:
+  # Code-related hypotheses (logic errors, bugs)
+  code:
+    description: "Software logic and implementation issues"
+    common_hypotheses:
+      - name: "logic_error"
+        template: "Logic error in {component}: incorrect conditional or algorithm"
+        default_confidence: 0.40
+        discriminating_tests:
+          - "Unit test the specific function with edge cases"
+          - "Code review the relevant code path"
+          - "Add debug logging to trace execution flow"
+      
+      - name: "type_error"
+        template: "Type mismatch or coercion error in {component}"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Check TypeScript/type annotations"
+          - "Log types at runtime"
+          - "Test with explicit type assertions"
+      
+      - name: "off_by_one"
+        template: "Off-by-one or boundary error in {component}"
+        default_confidence: 0.25
+        discriminating_tests:
+          - "Test boundary conditions (0, 1, n-1, n, n+1)"
+          - "Review loop conditions and array indices"
+      
+      - name: "null_handling"
+        template: "Null/undefined handling error in {component}"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Test with null/undefined inputs"
+          - "Check optional chaining usage"
+          - "Review error handling paths"
+      
+      - name: "state_mutation"
+        template: "Unexpected state mutation in {component}"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Add Object.freeze() to detect mutations"
+          - "Log state before/after operations"
+          - "Check for shared mutable references"
+
+  # Configuration-related hypotheses
+  config:
+    description: "Environment, settings, and configuration issues"
+    common_hypotheses:
+      - name: "env_var_missing"
+        template: "Missing or incorrect environment variable: {variable}"
+        default_confidence: 0.45
+        discriminating_tests:
+          - "Print all relevant env vars"
+          - "Compare with working environment"
+          - "Check .env files and secrets management"
+      
+      - name: "settings_mismatch"
+        template: "Configuration settings mismatch between {env1} and {env2}"
+        default_confidence: 0.40
+        discriminating_tests:
+          - "Diff configuration files"
+          - "Check for environment-specific overrides"
+          - "Verify config loading order"
+      
+      - name: "feature_flag"
+        template: "Feature flag {flag} incorrectly configured"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Check feature flag state"
+          - "Test with flag toggled"
+          - "Review flag targeting rules"
+      
+      - name: "secrets_rotation"
+        template: "Secrets or credentials expired or rotated"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Check credential expiration dates"
+          - "Verify secret values haven't changed"
+          - "Test authentication independently"
+
+  # Dependency-related hypotheses
+  dependencies:
+    description: "External package, library, and service version issues"
+    common_hypotheses:
+      - name: "version_conflict"
+        template: "Version conflict between {package1} and {package2}"
+        default_confidence: 0.40
+        discriminating_tests:
+          - "Check for peer dependency warnings"
+          - "Review lockfile for version mismatches"
+          - "Test with npm/yarn why"
+      
+      - name: "breaking_change"
+        template: "Breaking change in {package} update from {old} to {new}"
+        default_confidence: 0.45
+        discriminating_tests:
+          - "Review package changelog"
+          - "Test with previous version"
+          - "Check migration guides"
+      
+      - name: "missing_dependency"
+        template: "Missing or incorrectly installed dependency: {package}"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Verify package is in dependencies"
+          - "Check node_modules/package exists"
+          - "Run fresh install"
+      
+      - name: "transitive_conflict"
+        template: "Transitive dependency conflict from {package}"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Analyze dependency tree"
+          - "Check for duplicate packages"
+          - "Use resolution overrides"
+
+  # Data-related hypotheses
+  data:
+    description: "Input data, state, and edge case issues"
+    common_hypotheses:
+      - name: "invalid_input"
+        template: "Invalid or unexpected input data: {description}"
+        default_confidence: 0.40
+        discriminating_tests:
+          - "Log and inspect actual input"
+          - "Validate against schema"
+          - "Test with sanitized input"
+      
+      - name: "state_corruption"
+        template: "Corrupted or inconsistent state in {store}"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Inspect state at failure point"
+          - "Test with fresh state"
+          - "Add state validation checks"
+      
+      - name: "edge_case"
+        template: "Unhandled edge case: {case_description}"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Test with empty/null values"
+          - "Test with very large values"
+          - "Test with special characters"
+      
+      - name: "encoding_issue"
+        template: "Character encoding or serialization issue"
+        default_confidence: 0.25
+        discriminating_tests:
+          - "Check for UTF-8 handling"
+          - "Test with unicode characters"
+          - "Verify JSON serialization"
+
+  # Infrastructure-related hypotheses
+  infrastructure:
+    description: "System resources, network, and service availability"
+    common_hypotheses:
+      - name: "resource_exhaustion"
+        template: "Resource exhaustion: {resource} (CPU/memory/disk/connections)"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Monitor resource metrics"
+          - "Check limits and quotas"
+          - "Test under reduced load"
+      
+      - name: "network_issue"
+        template: "Network connectivity or latency issue to {service}"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Test network connectivity"
+          - "Measure latency and packet loss"
+          - "Check DNS resolution"
+      
+      - name: "service_unavailable"
+        template: "Upstream service {service} unavailable or degraded"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Check service health endpoints"
+          - "Review service status pages"
+          - "Test with mock service"
+      
+      - name: "permission_denied"
+        template: "Permission or access denied for {resource}"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Check IAM/RBAC permissions"
+          - "Verify credentials have correct scope"
+          - "Test with elevated permissions"
+
+  # Concurrency-related hypotheses
+  concurrency:
+    description: "Timing, synchronization, and parallel execution issues"
+    common_hypotheses:
+      - name: "race_condition"
+        template: "Race condition in {component} between {operation1} and {operation2}"
+        default_confidence: 0.35
+        discriminating_tests:
+          - "Add timing logs around operations"
+          - "Test with artificial delays"
+          - "Run under concurrency stress"
+      
+      - name: "deadlock"
+        template: "Deadlock or lock contention in {component}"
+        default_confidence: 0.25
+        discriminating_tests:
+          - "Check for lock ordering issues"
+          - "Monitor lock wait times"
+          - "Add deadlock detection"
+      
+      - name: "async_timing"
+        template: "Async timing issue: {operation} completing out of order"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Log operation timing"
+          - "Add await/synchronization"
+          - "Test with sequential execution"
+      
+      - name: "resource_contention"
+        template: "Resource contention on {resource} under concurrent access"
+        default_confidence: 0.30
+        discriminating_tests:
+          - "Monitor resource access patterns"
+          - "Add resource pooling"
+          - "Test with single-threaded execution"
+
+# Ishikawa/Fishbone category mapping for comprehensive coverage
+ishikawa_mapping:
+  methods: ["code"]
+  machines: ["infrastructure"]
+  materials: ["data", "dependencies"]
+  measurements: ["config"]
+  environment: ["config", "infrastructure"]
+  people: []  # Usually not applicable to code debugging

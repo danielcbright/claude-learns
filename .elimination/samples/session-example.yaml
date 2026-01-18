@@ -1,0 +1,83 @@
+# Active Elimination Session
+# Created by /eliminate command, updated during investigation
+
+session:
+  id: "session-2026-01-18-001"
+  problem_description: "API returning 500 errors intermittently on /api/v2/orders"
+  created_at: "2026-01-18T10:30:00Z"
+  status: active  # active, paused, resolved, abandoned
+  
+  # Current phase of investigation
+  phase: evidence_gathering  # hypothesis_generation, evidence_gathering, verification, learning
+  iteration: 4
+  
+  # Triggering context
+  trigger:
+    command: "/eliminate API returning 500 errors intermittently"
+    initial_context:
+      - "Errors started approximately 2 days ago"
+      - "Affects about 5% of requests"
+      - "No recent deployments"
+    matched_heuristics:
+      - "heur-001: load_correlation_concurrency"
+
+# Active hypotheses (IDs reference files in hypotheses/ directory)
+hypotheses:
+  active:
+    - id: "hyp-001"
+      status: active
+      current_confidence: 0.78
+    - id: "hyp-004"
+      status: active
+      current_confidence: 0.42
+  unlikely:
+    - id: "hyp-002"
+      status: unlikely
+      current_confidence: 0.18
+    - id: "hyp-005"
+      status: unlikely
+      current_confidence: 0.12
+  eliminated:
+    - id: "hyp-003"
+      status: eliminated
+      current_confidence: 0.04
+      eliminated_at: "2026-01-18T10:42:00Z"
+
+# Evidence collected (IDs reference files in evidence/ directory)
+evidence:
+  collected:
+    - "ev-001"
+    - "ev-002"
+    - "ev-003"
+    - "ev-004"
+    - "ev-005"
+    - "ev-006"
+
+# Convergence tracking
+convergence:
+  leading_hypothesis: "hyp-001"
+  leading_confidence: 0.78
+  second_confidence: 0.42
+  separation_margin: 0.36
+  information_gain_last_iteration: 0.12
+  
+  # Criteria status
+  criteria_met:
+    confidence_threshold: false  # Need > 0.90
+    separation_margin: true      # Have > 0.30
+    max_iterations: false        # 4 of 20
+
+# Session metrics
+metrics:
+  total_hypotheses_generated: 5
+  hypotheses_eliminated: 1
+  hypotheses_unlikely: 2
+  evidence_pieces: 6
+  duration_minutes: 25
+  
+# Notes and observations
+notes:
+  - timestamp: "2026-01-18T10:35:00Z"
+    note: "DB metrics look healthy, likely not connection pool issue"
+  - timestamp: "2026-01-18T10:48:00Z"
+    note: "Strong correlation between request rate and error rate observed"

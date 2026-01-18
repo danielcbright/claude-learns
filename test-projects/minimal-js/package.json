@@ -1,0 +1,13 @@
+{
+  "name": "minimal-js",
+  "version": "1.0.0",
+  "description": "Minimal JavaScript project for testing claude-learns template",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"No tests configured\" && exit 0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,13 @@
+# Ignore installed template files in test projects
+*/.claude/
+*/.serena/
+*/.elimination/
+*/.specify/
+*/CLAUDE.md
+
+# Keep the skeleton files
+!*/.gitkeep
+!*/package.json
+!*/pyproject.toml
+!*/go.mod
+!*/src/

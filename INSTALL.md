@@ -30,11 +30,14 @@ Before proceeding, confirm with the user:
 
 ### Step 1: Copy Core Directories
 
-Copy these directories to the target project root:
+**Important**: Copy from `template/` directory, not from root-level files.
+
+The root-level files are working copies for template development. The `template/`
+directory contains the clean distributable versions.
 
 ```
-FROM (this template)          TO (target project)
-├── .claude/                  → [target]/.claude/
+FROM (template/)              TO (target project)
+├── template/.claude/         → [target]/.claude/
 │   └── commands/             → [target]/.claude/commands/
 │       ├── audit.md
 │       ├── debug.md
@@ -42,15 +45,18 @@ FROM (this template)          TO (target project)
 │       ├── go.md
 │       ├── learn.md
 │       ├── refactor.md
-│       └── skills.md
-└── .serena/                  → [target]/.serena/
-    └── memories/             → [target]/.serena/memories/
-        └── claude_code_patterns.md
+│       ├── skills.md
+│       └── ... (20 commands total)
+├── template/.serena/         → [target]/.serena/
+│   └── memories/             → [target]/.serena/memories/
+├── template/.elimination/    → [target]/.elimination/
+├── template/.specify/        → [target]/.specify/
+└── template/CLAUDE.md        → [target]/CLAUDE.md
 ```
 
 ### Step 2: Copy and Customize CLAUDE.md
 
-1. Copy `CLAUDE.md` to target project root
+1. Copy `template/CLAUDE.md` to target project root
 2. Replace ALL placeholders:
    - `[PROJECT_NAME]` → actual project name
    - `[PRIMARY_LANGUAGE]` → e.g., `typescript`, `go`, `python`
@@ -75,31 +81,73 @@ If the user wants enhanced functionality, suggest relevant MCP servers:
 
 Run `/mcp` to check current MCP server status.
 
+## Post-Installation Verification
+
+After copying files, run health checks. **Output warnings but don't block installation.**
+
+### Verify Commands Installed
+
+Check `.claude/commands/` contains expected files (20 commands total):
+- Core: go, explore, debug, refactor, learn, audit, skills
+- Elimination: eliminate, hypothesis, evidence, eliminate-status, eliminate-history, bisect
+- Spec: spec-create, spec-validate, spec-debug, spec-deviation, spec-list, spec-verify, spec-correction
+
+### Check MCP Availability
+
+Test if Serena MCP is available by calling `list_memories()` or `get_current_config()`.
+
+If not available, warn user:
+```
+⚠️ Serena MCP not detected
+To install: claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context claude-code --project [target]
+```
+
+### Prompt for Constitution
+
+Ask user to define 2-3 non-negotiable project rules for `.specify/memory/constitution.md`:
+- Example: "All API endpoints must have authentication"
+- Example: "No direct database queries outside repository classes"
+
+User can skip and configure later.
+
+### Dry Run /learn Routing
+
+Verify routing destinations exist:
+- `.serena/memories/` exists?
+- `.specify/memory/corrections.md` exists?
+- `.serena/memories/decision-log.md` exists?
+- `.elimination/learned/heuristics.yaml` exists?
+
 ## Post-Installation Summary
 
-After completing installation, report to user:
+After completing installation and verification, report to user:
 
 ```
-Template installation complete!
+## Installation Complete!
 
-Files created:
-- .claude/commands/ (7 slash commands)
-- .serena/memories/claude_code_patterns.md
+### Files Created
+- .claude/commands/ (20 commands)
+- .serena/memories/ (6 memory files)
+- .elimination/ (debugging system)
+- .specify/ (spec system)
 - CLAUDE.md
 
-Next steps:
+### Health Check Results
+- Commands: ✅ 20/20 installed
+- Serena MCP: ✅ Connected / ⚠️ Not detected
+- Constitution: ✅ Configured / ⚠️ Skipped
+- Routing: ✅ All paths verified
+
+### Next Steps
 1. Review and customize CLAUDE.md for your project
-2. Fill in project-specific sections
-3. (Optional) Configure MCP servers with /mcp
+2. [If needed] Install Serena MCP
+3. [If skipped] Edit .specify/memory/constitution.md
 4. Test with: /go [small task]
 
-Available commands:
-- /go [task] - Start task with best practices
-- /explore [area] - Explore codebase systematically
-- /debug [issue] - Debug with structured approach
-- /refactor [target] - Safe refactoring
-- /learn - Trigger learning loop
-- /audit - Check documentation freshness
+### Quick Test Commands
+- /learn              → Verify routing works
+- /eliminate-status   → Should show "No active investigation"
+- /spec-list          → Should show specs directory
 ```
 
 ## Files NOT to Copy
