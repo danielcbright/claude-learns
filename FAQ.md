@@ -54,21 +54,21 @@ The core value works without MCPs. Serena MCP adds precise code navigation.
 
 ## Commands
 
-### What's the difference between `/debug` and `/eliminate`?
+### What's the difference between `/debug` and `/claude-learns.eliminate`?
 
-| Aspect | `/debug` | `/eliminate` |
+| Aspect | `/debug` | `/claude-learns.eliminate` |
 |--------|----------|--------------|
 | Best for | Single likely cause | Multiple possible causes |
 | Approach | Linear investigation | Parallel hypothesis testing |
 | Tracking | Ad-hoc | Structured YAML files |
-| When stuck | Switch to `/eliminate` | Keep gathering evidence |
+| When stuck | Switch to `/claude-learns.eliminate` | Keep gathering evidence |
 
 **Use `/debug`** for straightforward bugs.
-**Use `/eliminate`** when you've been stuck, the bug is intermittent, or multiple subsystems could be responsible.
+**Use `/claude-learns.eliminate`** when you've been stuck, the bug is intermittent, or multiple subsystems could be responsible.
 
-### When should I use `/spec-create`?
+### When should I use `/claude-learns.spec-create`?
 
-Use `/spec-create` when:
+Use `/claude-learns.spec-create` when:
 - Starting a new feature with clear requirements
 - You want to define "done" before starting
 - Multiple people need to agree on expected behavior
@@ -87,11 +87,11 @@ Claude Code doesn't have built-in undo, but:
 2. **Editor**: Use your IDE's local history
 3. **Memories**: Delete unwanted memories with `delete_memory("name")`
 
-For updates specifically, use `/update --rollback`.
+For updates specifically, use `/claude-learns.update --rollback`.
 
-### What does `/learn` actually do?
+### What does `/claude-learns.learn` actually do?
 
-`/learn` triggers Claude to:
+`/claude-learns.learn` triggers Claude to:
 1. Review insights from the current session
 2. Propose updates to memories or CLAUDE.md
 3. Wait for your approval before writing anything
@@ -155,7 +155,7 @@ ls .serena/memories/
 
 **Yes.** `/clear` only clears the conversation context. Memories are stored in files and survive across sessions.
 
-This is why you should run `/learn` before `/clear` to save important insights.
+This is why you should run `/claude-learns.learn` before `/clear` to save important insights.
 
 ---
 
@@ -181,7 +181,7 @@ claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena 
 
 This usually means memories aren't being used effectively:
 
-1. Run `/learn` to save context that's being re-discovered
+1. Run `/claude-learns.learn` to save context that's being re-discovered
 2. Check that `CLAUDE.md` has accurate entry points documented
 3. Verify Serena MCP is connected for symbol-based navigation
 
@@ -209,7 +209,7 @@ For monorepos, document package-specific patterns in memories.
 
 ## Best Practices
 
-### How often should I run `/learn`?
+### How often should I run `/claude-learns.learn`?
 
 - **After discovering something non-obvious** about the codebase
 - **Before `/clear`** to preserve important context
@@ -235,7 +235,7 @@ Add to `.gitignore` if you prefer not to commit:
 
 ### How do I keep memories from getting stale?
 
-Run `/audit` periodically. It checks:
+Run `/claude-learns.audit` periodically. It checks:
 - CLAUDE.md accuracy
 - Memory relevance
 - Outdated information

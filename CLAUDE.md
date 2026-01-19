@@ -113,7 +113,7 @@ This project uses a persistent memory system to help Claude learn and improve ov
 | Memory | Purpose | When to Read |
 |--------|---------|--------------|
 | `claude_code_patterns` | Session quick reference | Start of any task |
-| `elimination_patterns` | Elimination debugging quick reference | Before `/eliminate` sessions |
+| `elimination_patterns` | Elimination debugging quick reference | Before `/claude-learns.eliminate` sessions |
 | `debugging-lessons` | Past bugs and resolutions | Before debugging sessions |
 | `common-bugs` | Recurring patterns by feature | When debugging known areas |
 | `decision-log` | Why we chose X over Y | Before architectural changes |
@@ -123,7 +123,7 @@ This project uses a persistent memory system to help Claude learn and improve ov
 | Memory | Purpose | When to Read |
 |--------|---------|--------------|
 | `constitution.md` | Non-negotiable project rules | Before any implementation |
-| `corrections.md` | Past premature completion claims | During `/spec-verify` |
+| `corrections.md` | Past premature completion claims | During `/claude-learns.spec-verify` |
 <!-- Add more memories as created -->
 
 ---
@@ -370,12 +370,12 @@ Would you like me to make these updates?
 ### Adding a New Feature
 
 ```
-1. /spec-create [feature]     → Define requirements and acceptance criteria
+1. /claude-learns.spec-create [feature]  → Define requirements and acceptance criteria
 2. Review spec with stakeholder if needed
-3. /go implement              → Build per spec
-4. /spec-validate [feature]   → Check implementation matches spec
-5. /spec-verify [feature]     → Verify with evidence before claiming done
-6. /learn                     → Capture insights
+3. /go implement                         → Build per spec
+4. /claude-learns.spec-validate [feature]→ Check implementation matches spec
+5. /claude-learns.spec-verify [feature]  → Verify with evidence before claiming done
+6. /claude-learns.learn                  → Capture insights
 ```
 
 ### Debugging an Issue
@@ -395,14 +395,14 @@ Would you like me to make these updates?
 For complex bugs with multiple possible causes, use the elimination system:
 
 ```
-1. /eliminate [symptom]     → Generate hypotheses
-2. /eliminate-status        → Review current state
-3. /hypothesis [new idea]   → Add hypothesis if needed
-4. /evidence [H#] [result]  → Record evidence
-5. /eliminate-status        → Check convergence
+1. /claude-learns.eliminate [symptom]     → Generate hypotheses
+2. /claude-learns.eliminate-status        → Review current state
+3. /claude-learns.hypothesis [new idea]   → Add hypothesis if needed
+4. /claude-learns.evidence [H#] [result]  → Record evidence
+5. /claude-learns.eliminate-status        → Check convergence
 6. Repeat 3-5 until confirmed
 7. Verify fix works
-8. Run /learn to capture debugging insights
+8. Run /claude-learns.learn to capture debugging insights
 ```
 
 > "When you have eliminated the impossible, whatever remains, however improbable,
@@ -413,12 +413,12 @@ For complex bugs with multiple possible causes, use the elimination system:
 For bugs in features with specifications:
 
 ```
-1. /spec-debug [feature] [symptom]  → Load spec, compare to reality
+1. /claude-learns.spec-debug [feature] [symptom]  → Load spec, compare to reality
 2. Hypotheses generated from deviations (elevated confidence)
-3. Evidence gathering continues via /eliminate
+3. Evidence gathering continues via /claude-learns.eliminate
 4. If spec deviation caused bug:
    - Fix implementation to match spec, OR
-   - /spec-deviation if behavior change is intentional
+   - /claude-learns.spec-deviation if behavior change is intentional
 5. Update debugging-lessons memory
 ```
 
@@ -438,17 +438,17 @@ For bugs in features with specifications:
 
 ### Verification Before Claiming Done
 
-**IMPORTANT: YOU MUST run `/spec-verify` before claiming any implementation is complete.**
+**IMPORTANT: YOU MUST run `/claude-learns.spec-verify` before claiming any implementation is complete.**
 
 Requirements before saying "done":
-1. Run `/spec-verify [feature]`
+1. Run `/claude-learns.spec-verify [feature]`
 2. All acceptance criteria show ✅ PASS
 3. Evidence is concrete (test output, screenshots, logs) not "I believe it works"
 
 If ANY criterion fails:
 - Do NOT claim completion
 - Fix the issue
-- Re-run `/spec-verify`
+- Re-run `/claude-learns.spec-verify`
 - Repeat until all pass
 
 ### Evidence Quality
@@ -472,18 +472,18 @@ If ANY criterion fails:
 ### When Corrected
 
 If user says "this isn't working" after you claimed done:
-1. Run `/spec-correction` immediately
+1. Run `/claude-learns.spec-correction` immediately
 2. Capture what was claimed vs reality
 3. Identify what verification would have caught it
 4. Fix the issue
-5. Re-run `/spec-verify` with full evidence
+5. Re-run `/claude-learns.spec-verify` with full evidence
 
 ### Correction Loop
 
 ```
-Implement → /spec-verify (with evidence) → If user corrects → /spec-correction
-                ↑                                                      ↓
-                └──────── Future /spec-verify checks corrections ←─────┘
+Implement → /claude-learns.spec-verify (with evidence) → If user corrects → /claude-learns.spec-correction
+                ↑                                                                          ↓
+                └──────────────── Future /claude-learns.spec-verify checks corrections ←───┘
 ```
 
 Corrections are stored in `.specify/memory/corrections.md` and checked during
@@ -495,30 +495,35 @@ future verifications to prevent repeating the same mistakes.
 
 ### Slash Commands
 
+**Generic Commands:**
 | Command | Purpose |
 |---------|---------|
 | `/go [task]` | Start task following best practices |
 | `/explore [area]` | Systematically explore codebase area |
 | `/debug [issue]` | Debug issue with structured approach |
 | `/refactor [target]` | Safe refactoring workflow |
-| `/learn` | Trigger learning loop review |
-| `/audit` | Audit CLAUDE.md and memories for staleness |
-| `/skills` | Re-discover and update skills |
-| `/install` | Install template into target project |
-| `/update [tool]` | Update tools and template with git safety |
-| `/eliminate [symptom]` | Start elimination-based debugging session |
-| `/hypothesis [desc]` | Add hypothesis to active investigation |
-| `/evidence [H#] [obs]` | Record evidence for hypothesis evaluation |
-| `/eliminate-status` | View current investigation state |
-| `/eliminate-history` | Search past debugging sessions |
-| `/bisect` | Git bisect integration for commit-level elimination |
-| `/spec-create [name]` | Create feature specification |
-| `/spec-validate [name]` | Validate implementation against spec |
-| `/spec-debug [name] [symptom]` | Debug using spec as source of truth |
-| `/spec-deviation [name]` | Log intentional spec deviation |
-| `/spec-list` | List all specifications |
-| `/spec-verify [name]` | Verify with evidence before claiming done |
-| `/spec-correction` | Capture correction when claim was wrong |
+
+**Claude-Learns Commands** (template-specific):
+| Command | Purpose |
+|---------|---------|
+| `/claude-learns.learn` | Trigger learning loop review |
+| `/claude-learns.audit` | Audit CLAUDE.md and memories for staleness |
+| `/claude-learns.skills` | Re-discover and update skills |
+| `/claude-learns.install` | Install template into target project |
+| `/claude-learns.update [tool]` | Update tools and template with git safety |
+| `/claude-learns.eliminate [symptom]` | Start elimination-based debugging session |
+| `/claude-learns.hypothesis [desc]` | Add hypothesis to active investigation |
+| `/claude-learns.evidence [H#] [obs]` | Record evidence for hypothesis evaluation |
+| `/claude-learns.eliminate-status` | View current investigation state |
+| `/claude-learns.eliminate-history` | Search past debugging sessions |
+| `/claude-learns.bisect` | Git bisect integration for commit-level elimination |
+| `/claude-learns.spec-create [name]` | Create feature specification |
+| `/claude-learns.spec-validate [name]` | Validate implementation against spec |
+| `/claude-learns.spec-debug [name] [symptom]` | Debug using spec as source of truth |
+| `/claude-learns.spec-deviation [name]` | Log intentional spec deviation |
+| `/claude-learns.spec-list` | List all specifications |
+| `/claude-learns.spec-verify [name]` | Verify with evidence before claiming done |
+| `/claude-learns.spec-correction` | Capture correction when claim was wrong |
 
 ### Claude Code Commands
 
@@ -599,33 +604,33 @@ serve as the source of truth for validation and debugging.
 ### Spec Workflow
 
 ```
-1. /spec-create [feature]     → Define expected behavior
-2. Implement feature          → Follow the spec
-3. /spec-validate [feature]   → Verify implementation matches spec
+1. /claude-learns.spec-create [feature]     → Define expected behavior
+2. Implement feature                        → Follow the spec
+3. /claude-learns.spec-validate [feature]   → Verify implementation matches spec
 4. If issues found:
    - Bug? → Fix implementation
-   - Intentional? → /spec-deviation to document
-5. /spec-debug [feature] [symptom] → Debug with spec context
+   - Intentional? → /claude-learns.spec-deviation to document
+5. /claude-learns.spec-debug [feature] [symptom] → Debug with spec context
 ```
 
 ### Integration with Elimination Debugging
 
-When `/spec-debug` is used:
+When `/claude-learns.spec-debug` is used:
 1. Loads the feature specification
 2. Compares actual vs expected behavior
 3. Generates hypotheses from spec deviations (confidence: 0.70)
-4. User can run `/eliminate` after analysis for systematic debugging
+4. User can run `/claude-learns.eliminate` after analysis for systematic debugging
 5. Uses spec as evidence source
 
 ### When to Use Specs
 
 | Scenario | Use |
 |----------|-----|
-| New feature implementation | `/spec-create` first |
-| Debugging specced feature | `/spec-debug` |
-| Validating implementation | `/spec-validate` |
-| Intentional behavior change | `/spec-deviation` |
-| Overview of all specs | `/spec-list` |
+| New feature implementation | `/claude-learns.spec-create` first |
+| Debugging specced feature | `/claude-learns.spec-debug` |
+| Validating implementation | `/claude-learns.spec-validate` |
+| Intentional behavior change | `/claude-learns.spec-deviation` |
+| Overview of all specs | `/claude-learns.spec-list` |
 
 ---
 
@@ -642,6 +647,22 @@ based on modus tollens logic and Bayesian confidence tracking.
 The system generates hypotheses, gathers discriminating evidence, updates confidence
 scores via Bayesian reasoning, and eliminates falsified hypotheses until the root
 cause is identified.
+
+### Orchestrator Architecture
+
+Claude acts as an **orchestrator**, delegating work to specialized subagents:
+
+| Agent | Purpose |
+|-------|---------|
+| **HypothesisAgent** | Generate hypotheses from context, heuristics, and memories |
+| **ResearchAgent** | Search web for prior art, known issues, solutions |
+| **CodeAnalysisAgent** | Analyze code paths using Serena MCP tools |
+| **TestRunnerAgent** | Execute discriminating tests, capture results |
+
+**Flow**: Initialize → HypothesisAgent → [Loop: next → research → analyze → test → checkpoint] → Archive
+
+Each subagent completes its phase and returns control to the orchestrator. Script
+gates (Python scripts) validate work between phases.
 
 ### Key Files
 
@@ -671,7 +692,7 @@ cause is identified.
 
 ### When to Use Elimination
 
-Use `/eliminate` instead of `/debug` when:
+Use `/claude-learns.eliminate` instead of `/debug` when:
 - Multiple possible causes exist and simple debugging isn't converging
 - Initial debugging hasn't found the root cause
 - Issue is intermittent or hard to reproduce
@@ -682,19 +703,10 @@ Use `/eliminate` instead of `/debug` when:
 ## Changelog
 
 <!-- Track CLAUDE.md evolution here -->
-- **2026-01-19**: Added Code Conventions section with specific guidelines per Anthropic best practices
-- **2026-01-19**: Added IMPORTANT markers to critical rules (token efficiency, verification, evidence)
-- **2026-01-19**: Enhanced /learn to update CLAUDE.md and fetch Anthropic best practices
-- **2026-01-19**: Added skill-creator skill and Anthropic skills discovery to /learn
-- **2026-01-18**: Added /update command for safe tool and template updates with git checkpoints
-- **2026-01-18**: Added comprehensive Serena MCP Tools Reference section
-- **2026-01-18**: Added dual-location architecture decisions to decision-log memory
-- **2026-01-17**: Audit fixes: updated /debug, /go, /audit; fixed workflows; added /install and spec memories
-- **2026-01-17**: Added verification gate (/spec-verify, /spec-correction) and corrections memory
-- **2026-01-17**: Added Spec-Kit integration for specification-driven development
-- **2026-01-17**: Added new memories (debugging-lessons, common-bugs, decision-log, tool-documentation)
-- **2026-01-17**: Added spec commands (/spec-create, /spec-validate, /spec-debug, /spec-deviation, /spec-list)
-- **2026-01-17**: Added scientific elimination debugging system
+- **[DATE]**: Added Code Conventions section with specific guidelines per Anthropic best practices
+- **[DATE]**: Added IMPORTANT markers to critical rules (token efficiency, verification, evidence)
+- **[DATE]**: Added /update command for safe tool and template updates with git checkpoints
+- **[DATE]**: Added comprehensive Serena MCP Tools Reference section
 - **[DATE]**: Initial CLAUDE.md created from claude-learns template
 <!-- Add entries as updates are made -->
 

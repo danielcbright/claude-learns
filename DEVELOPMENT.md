@@ -6,7 +6,7 @@
 
 When Claude Code opens this repository, it loads `.claude/commands/` as available slash commands. However, these commands are designed for projects USING the template, not for developing the template itself.
 
-**The risk**: Running `/learn` while developing could write learnings to `.serena/memories/`, polluting the template content that gets copied to other projects.
+**The risk**: Running `/claude-learns.learn` while developing could write learnings to `.serena/memories/`, polluting the template content that gets copied to other projects.
 
 ## Dual-Location Architecture
 
@@ -36,14 +36,14 @@ claude-learns/
 ### Root Level (Development)
 
 - Claude Code loads these as active commands
-- Can be modified by `/learn`, `/eliminate`, etc. during development
+- Can be modified by `/claude-learns.learn`, `/claude-learns.eliminate`, etc. during development
 - Used for testing and iterating on the template
 - May contain development-specific content
 
 ### template/ (Distributable)
 
 - Never loaded by Claude Code (not at root level)
-- These are what `/install` copies to target projects
+- These are what `/claude-learns.install` copies to target projects
 - Kept pristine with `[PLACEHOLDER]` values
 - This is what users receive
 
@@ -57,9 +57,9 @@ claude-learns/
 |-----------|----------|
 | Editing command files directly | You're editing the template intentionally |
 | Editing memory file templates | Explicit template work |
-| Running `/audit` | Read-only, reports issues |
-| Running `/spec-list` | Read-only |
-| Running `/eliminate-status` | Read-only |
+| Running `/claude-learns.audit` | Read-only, reports issues |
+| Running `/claude-learns.spec-list` | Read-only |
+| Running `/claude-learns.eliminate-status` | Read-only |
 | Testing in `test-projects/` | Isolated from template |
 
 ### Operations That Modify Root Files
@@ -68,12 +68,12 @@ These modify root-level files, which is fine for development but should be synce
 
 | Operation | What It Modifies |
 |-----------|-----------------|
-| `/learn` | `.serena/memories/`, `.specify/memory/`, `.elimination/learned/` |
-| `/eliminate` | `.elimination/active/`, `.elimination/logs/` |
-| `/hypothesis`, `/evidence` | `.elimination/active/` |
-| `/spec-create` | `.specify/specs/` |
-| `/spec-deviation` | `.specify/deviations/` |
-| `/spec-correction` | `.specify/memory/corrections.md` |
+| `/claude-learns.learn` | `.serena/memories/`, `.specify/memory/`, `.elimination/learned/` |
+| `/claude-learns.eliminate` | `.elimination/active/`, `.elimination/logs/` |
+| `/claude-learns.hypothesis`, `/claude-learns.evidence` | `.elimination/active/` |
+| `/claude-learns.spec-create` | `.specify/specs/` |
+| `/claude-learns.spec-deviation` | `.specify/deviations/` |
+| `/claude-learns.spec-correction` | `.specify/memory/corrections.md` |
 
 ---
 
@@ -256,7 +256,7 @@ Before releasing a new version:
 - [ ] `template/CLAUDE.md` has `[PLACEHOLDERS]` not real values
 - [ ] `template/.serena/memories/` has clean examples
 - [ ] `template/.elimination/active/` is empty
-- [ ] `/install test-projects/minimal-js` works correctly
+- [ ] `/claude-learns.install test-projects/minimal-js` works correctly
 - [ ] CLAUDE.md, INSTALL.md, README.md are consistent
 - [ ] Version numbers updated if applicable
 
@@ -283,7 +283,7 @@ Before releasing a new version:
 3. Update CLAUDE.md "Quick Reference" section
 4. Update README.md "Available Slash Commands" section
 5. Sync to `template/`
-6. Verify with `/install test-projects/minimal-js`
+6. Verify with `/claude-learns.install test-projects/minimal-js`
 
 ### Modifying Memory Structure
 
@@ -293,7 +293,7 @@ Before releasing a new version:
    - `write_memory("memory-name", content)` - Overwrite entire memory
 2. Update CLAUDE.md "Current Memories" table
 3. Sync to `template/` and ensure placeholders
-4. Test `/learn` routing in test-projects/
+4. Test `/claude-learns.learn` routing in test-projects/
 
 **Note**: Prefer `edit_memory` over direct file editing when Serena MCP is active - it provides better atomic operations and error handling.
 

@@ -21,17 +21,17 @@ Location Verification:
 ### If NEW FEATURE:
 ```
 For non-trivial features, consider starting with:
-/spec-create [feature-name]
+/claude-learns.spec-create [feature-name]
 
 This creates a specification with acceptance criteria before implementation,
-enabling proper verification with /spec-verify when done.
+enabling proper verification with /claude-learns.spec-verify when done.
 ```
 
 ### If DEBUGGING / FIXING A BUG:
 ```
 For bugs, use the dedicated debugging workflows:
 /debug [issue]      - Systematic debugging with memory consultation
-/eliminate [issue]  - Scientific elimination for complex/intermittent bugs
+/claude-learns.eliminate [issue]  - Scientific elimination for complex/intermittent bugs
 
 These check past debugging lessons and known bug patterns first.
 ```
@@ -75,7 +75,7 @@ This maps impact, makes incremental changes, and verifies with tests.
 - Run tests and linting
 - Check `git diff` to verify changes
 - Update memories if new patterns were established
-- For features with specs: Run `/spec-verify` before claiming done
+- For features with specs: Run `/claude-learns.spec-verify` before claiming done
 
 ---
 

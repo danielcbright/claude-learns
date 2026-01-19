@@ -11,7 +11,7 @@ Concrete scenarios showing how to use claude-learns effectively.
 ### Step 1: Start Elimination Debugging
 
 ```
-/eliminate "GET /api/users/:id returns 500 errors intermittently"
+/claude-learns.eliminate "GET /api/users/:id returns 500 errors intermittently"
 ```
 
 Claude generates hypotheses:
@@ -30,7 +30,7 @@ Hypotheses Generated:
 ### Step 2: Add a Hypothesis You Suspect
 
 ```
-/hypothesis "Redis session lookup failing silently"
+/claude-learns.hypothesis "Redis session lookup failing silently"
 ```
 
 ```
@@ -42,7 +42,7 @@ Added H6: Redis session lookup failing silently (0.50)
 You check the logs and find high connection pool usage:
 
 ```
-/evidence H1 "DB pool at 95% capacity during errors" --supports
+/claude-learns.evidence H1 "DB pool at 95% capacity during errors" --supports
 ```
 
 ```
@@ -52,7 +52,7 @@ H1 confidence updated: 0.65 -> 0.78
 You also find Redis is healthy:
 
 ```
-/evidence H6 "Redis latency <2ms, no errors in logs" --contradicts
+/claude-learns.evidence H6 "Redis latency <2ms, no errors in logs" --contradicts
 ```
 
 ```
@@ -86,7 +86,7 @@ Next suggested action: Test H1 by increasing pool size temporarily
 You increase the pool size, errors stop. Mark as confirmed:
 
 ```
-/evidence H1 "Increased pool from 10 to 25, errors stopped" --confirms
+/claude-learns.evidence H1 "Increased pool from 10 to 25, errors stopped" --confirms
 ```
 
 Claude marks H1 as confirmed (>0.90) and suggests the fix.
@@ -110,7 +110,7 @@ Claude offers to save:
 ### Step 1: Create a Specification
 
 ```
-/spec-create user-authentication
+/claude-learns.spec-create user-authentication
 ```
 
 Claude asks clarifying questions and creates `.specify/specs/user-authentication/spec.md`:
@@ -162,7 +162,7 @@ Claude:
 ### Step 3: Validate Against Spec
 
 ```
-/spec-validate user-authentication
+/claude-learns.spec-validate user-authentication
 ```
 
 ```
@@ -192,7 +192,7 @@ Action needed: Fix expired token handling in AC-2
 Claude fixes the expired token handling, then:
 
 ```
-/spec-verify user-authentication
+/claude-learns.spec-verify user-authentication
 ```
 
 ```
@@ -385,7 +385,7 @@ Claude adds to `decision-log.md`:
 ### Step 1: Debug with Spec Context
 
 ```
-/spec-debug user-authentication "wrong error messages on login failure"
+/claude-learns.spec-debug user-authentication "wrong error messages on login failure"
 ```
 
 Claude loads the spec and compares:
@@ -410,7 +410,7 @@ Hypothesis generated:
 ### Step 2: Continue with Evidence
 
 ```
-/evidence H1 "Found Joi validation in routes/auth.ts returning 400" --supports
+/claude-learns.evidence H1 "Found Joi validation in routes/auth.ts returning 400" --supports
 ```
 
 ```
@@ -428,7 +428,7 @@ Which approach?
 You decide the 400 is actually correct:
 
 ```
-/spec-deviation user-authentication
+/claude-learns.spec-deviation user-authentication
 ```
 
 Claude records in `.specify/deviations/user-authentication/`:
@@ -523,7 +523,7 @@ Key files to understand:
 
 When a cross-service issue occurs:
 ```
-/eliminate "payment service timeouts during checkout"
+/claude-learns.eliminate "payment service timeouts during checkout"
 ```
 
 ```
@@ -538,8 +538,8 @@ Hypotheses (informed by service-architecture memory):
 
 Team members add evidence from their areas:
 ```
-/evidence H1 "Circuit breaker logs show 0 trips in last hour" --contradicts
-/evidence H3 "Stripe dashboard shows 2s avg latency (normal: 200ms)" --supports
+/claude-learns.evidence H1 "Circuit breaker logs show 0 trips in last hour" --contradicts
+/claude-learns.evidence H3 "Stripe dashboard shows 2s avg latency (normal: 200ms)" --supports
 ```
 
 ### Step 4: Knowledge Evolution
@@ -563,7 +563,7 @@ Claude updates team memories:
 
 Now the team has persistent knowledge preventing future confusion.
 
-**Team Memory Conflicts**: If multiple team members update the same memory simultaneously, Claude will show both versions and ask which to keep. Use `/learn` after team discussions to consolidate insights.
+**Team Memory Conflicts**: If multiple team members update the same memory simultaneously, Claude will show both versions and ask which to keep. Use `/claude-learns.learn` after team discussions to consolidate insights.
 
 ---
 
@@ -628,7 +628,7 @@ Replace manual processes with commands:
 
 **After (structured):**
 ```
-/eliminate "user registration failures"
+/claude-learns.eliminate "user registration failures"
 ```
 
 **Before (manual):**
@@ -636,14 +636,14 @@ Replace manual processes with commands:
 
 **After (structured):**
 ```
-/spec-create user-profiles
+/claude-learns.spec-create user-profiles
 /go implement the user-profiles spec
-/spec-verify user-profiles
+/claude-learns.spec-verify user-profiles
 ```
 
 ### Step 4: Train the System
 
-Run `/learn` after significant sessions:
+Run `/claude-learns.learn` after significant sessions:
 
 ```
 /learn
@@ -674,11 +674,11 @@ You don't need everything at once:
 
 | Week 1 | Week 2+ | When Needed |
 |--------|---------|-------------|
-| `/go` | `/explore` | `/eliminate` |
-| `/learn` | `/debug` | `/spec-create` |
-| | `/audit` | `/spec-verify` |
+| `/go` | `/explore` | `/claude-learns.eliminate` |
+| `/claude-learns.learn` | `/debug` | `/claude-learns.spec-create` |
+| | `/claude-learns.audit` | `/claude-learns.spec-verify` |
 
-Start with `/go` and `/learn`. Add more commands as you encounter situations where they help.
+Start with `/go` and `/claude-learns.learn`. Add more commands as you encounter situations where they help.
 
 **Rollback Plan**: If you want to return to manual Claude usage, simply delete the added directories:
 ```bash
@@ -692,13 +692,13 @@ Your project code remains unchanged.
 
 | Scenario | Commands Used | Key Benefit |
 |----------|---------------|-------------|
-| Complex debugging | `/eliminate`, `/evidence` | Systematic hypothesis tracking |
-| New features | `/spec-create`, `/go`, `/spec-verify` | Clear definition of done |
-| Understanding code | `/explore`, `/learn` | Persistent knowledge |
-| Refactoring | `/refactor`, `/learn` | Safe changes with verification |
-| Spec debugging | `/spec-debug`, `/spec-deviation` | Spec as source of truth |
-| Team collaboration | `/go`, `/learn`, `/eliminate` | Shared persistent knowledge |
-| Manual migration | `/install`, `/go`, `/learn` | Gradual structured adoption |
+| Complex debugging | `/claude-learns.eliminate`, `/claude-learns.evidence` | Systematic hypothesis tracking |
+| New features | `/claude-learns.spec-create`, `/go`, `/claude-learns.spec-verify` | Clear definition of done |
+| Understanding code | `/explore`, `/claude-learns.learn` | Persistent knowledge |
+| Refactoring | `/refactor`, `/claude-learns.learn` | Safe changes with verification |
+| Spec debugging | `/claude-learns.spec-debug`, `/claude-learns.spec-deviation` | Spec as source of truth |
+| Team collaboration | `/go`, `/claude-learns.learn`, `/claude-learns.eliminate` | Shared persistent knowledge |
+| Manual migration | `/claude-learns.install`, `/go`, `/claude-learns.learn` | Gradual structured adoption |
 
 ---
 
