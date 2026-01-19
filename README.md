@@ -243,6 +243,19 @@ A systematic approach to debugging based on the scientific method and Bayesian r
 
 > "When you have eliminated the impossible, whatever remains, however improbable, must be the truth." — Sherlock Holmes
 
+### Architecture
+
+Claude acts as an **orchestrator**, delegating to specialized subagents via the Task tool:
+
+| Agent | Purpose |
+|-------|---------|
+| **HypothesisAgent** | Generate hypotheses from context and heuristics |
+| **ResearchAgent** | Search web for prior art and known issues |
+| **CodeAnalysisAgent** | Analyze code paths using Serena MCP |
+| **TestRunnerAgent** | Execute discriminating tests |
+
+The orchestrator cycles through agents until convergence (leading hypothesis > 90% confidence or > 30% separation margin).
+
 ### When to Use
 
 Use `/claude-learns.eliminate` instead of `/debug` when:

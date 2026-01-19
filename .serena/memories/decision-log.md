@@ -143,6 +143,30 @@ This memory records significant decisions to:
 
 <!-- Build, deploy, monitoring decisions -->
 
+### DEC-004: Manifest-Based Template Sync for /update Command
+
+**Date**: 2026-01-19
+**Status**: accepted
+**Context**: `/claude-learns.update claude-learns` was only updating MCPs, not template files. Need a way for Claude to know which files to update, detect conflicts, and preserve user modifications.
+**Decision**: Use manifest.yaml with SHA256 checksums and categorized update behaviors
+**Rationale**:
+- Checksums enable conflict detection (user-modified vs outdated vs up-to-date)
+- Categories allow different behaviors: always_update, updateable, merge_only, protected
+- Single manifest file contains all needed info (works offline after fetch)
+- Generator script ensures maintainability
+**Alternatives Considered**:
+1. Git submodules - rejected, too complex for end users
+2. Direct file comparison - rejected, can't detect user modifications vs outdated
+3. Simple file list without checksums - rejected, no conflict detection
+4. Full git diff approach - rejected, requires .git history which installed projects may not have
+**Consequences**:
+- Manifest must be regenerated when template files change (-)
+- Reliable conflict detection (+)
+- Clear categorization of update behavior (+)
+- Backup system for user modifications (+)
+- Self-updating: the update command itself is in always_update category (+)
+**Review Date**: After 3 releases, evaluate if checksum approach scales
+
 ---
 
 ## Quick Reference
@@ -152,6 +176,7 @@ This memory records significant decisions to:
 | DEC-001 | Spec-Kit integration for specification-driven development | 2026-01-17 | accepted |
 | DEC-002 | Dual-location architecture for template development | 2026-01-18 | accepted |
 | DEC-003 | Test projects with language-specific skeletons | 2026-01-18 | accepted |
+| DEC-004 | Manifest-based template sync for /update command | 2026-01-19 | accepted |
 
 ---
 
@@ -184,5 +209,5 @@ When a decision affects specifications:
 
 ---
 
-*Last Updated: 2026-01-18*
-*Total Decisions: 3*
+*Last Updated: 2026-01-19*
+*Total Decisions: 4*

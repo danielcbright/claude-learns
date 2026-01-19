@@ -169,55 +169,81 @@ Proceed with update? (yes/no)
 
 ### For claude-learns template:
 
-1. **Fetch file list from manifest**:
+1. **Fetch and parse manifest**:
    ```
    WebFetch: https://raw.githubusercontent.com/danielcbright/claude-learns/main/template/manifest.yaml
    ```
 
-2. **For each updateable file**:
+   The manifest contains:
+   - `version`: Latest template version
+   - `files.always_update`: Files that are always replaced
+   - `files.updateable`: Files with conflict detection
+   - `files.merge_only`: Config files (add new keys, preserve values)
+   - `files.protected`: Paths that are NEVER touched
+   - `original_checksums`: Checksums for conflict detection
 
-   **PROTECTED - Never update:**
-   - `.serena/memories/*` - User's learned knowledge
-   - `.specify/specs/*` - User's specifications
-   - `.specify/memory/constitution.md` - User's project rules
-   - `.specify/memory/corrections.md` - User's correction history
-   - `.elimination/active/*` - Active debugging session
-   - `.elimination/archive/*` - Historical debugging data
+2. **Process each file category**:
 
-   **MERGE ONLY (add new keys, preserve existing):**
-   - `.elimination/learned/heuristics.yaml`
-   - `.elimination/config.yaml`
-   - `.specify/config.yaml`
+   **ALWAYS UPDATE** (from `files.always_update`):
+   - Fetch and replace without asking
+   - Currently: `.claude/commands/claude-learns.update.md`
 
-   **UPDATEABLE (check for conflicts):**
-   - `.claude/commands/*.md` - Check if user modified
-   - `.elimination/learned/templates/*`
-   - `.specify/templates/*`
+   **UPDATEABLE** (from `files.updateable`):
+   For each file:
+   ```
+   1. Calculate local file SHA256 checksum
+   2. Compare to manifest checksum:
+      - If match: File is up-to-date, skip
+      - If differs: Check for user modifications
+   3. If local != manifest checksum:
+      - Compare local to original_checksums[path]
+      - If local == original: User hasn't modified, safe to update
+      - If local != original: CONFLICT - ask user (see below)
+   ```
 
-   **SPECIAL:**
-   - `CLAUDE.md` - Ask user: merge or skip?
-   - `.claude/commands/update.md` - Always update (to get latest update logic)
+   **MERGE ONLY** (from `files.merge_only`):
+   - Fetch latest version
+   - Parse YAML: add new keys from remote, preserve existing local values
+   - Write merged result
+
+   **PROTECTED** (from `files.protected`):
+   - NEVER modify these paths
+   - Log when encountered for transparency:
+     - `.serena/memories/*` - User's learned knowledge
+     - `.specify/specs/*` - User's specifications
+     - `.specify/memory/constitution.md` - User's project rules
+     - `.specify/memory/corrections.md` - User's correction history
+     - `.elimination/active/*` - Active debugging session
+     - `.elimination/archive/*` - Historical debugging data
 
 3. **Conflict handling**:
 
-   For each command file:
+   When user has modified an updateable file (local != original AND local != latest):
    ```
-   If file exists locally AND differs from original template:
-     "Conflict detected: [filename]
-      You have local modifications.
+   Conflict detected: [filename]
+   You have local modifications.
 
-      Options:
-      1. Keep local (skip update for this file)
-      2. Take update (backup local to .claude-learns-backup/)
-      3. View diff
+   Local checksum:    [sha256:abc...]
+   Original checksum: [sha256:def...]
+   Latest checksum:   [sha256:ghi...]
 
-      Choice:"
+   Options:
+   1. Keep local (skip update for this file)
+   2. Take update (backup local to .claude-learns-backup/)
+   3. View diff
+
+   Choice:
    ```
+
+   If user chooses "Take update":
+   - Create `.claude-learns-backup/` if needed
+   - Copy local file to `.claude-learns-backup/[path]`
+   - Then fetch and apply update
 
 4. **Apply updates**:
    ```
    For each file to update:
-     WebFetch the file from template/
+     WebFetch: {manifest.base_url}/{path}
      Write to local path
    ```
 

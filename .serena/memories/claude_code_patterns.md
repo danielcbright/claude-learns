@@ -102,6 +102,16 @@ rsync -av --dry-run .specify/ template/.specify/
 # After sync: replace project-specific content with [PLACEHOLDERS]
 ```
 
+### Instruction-Based Commands Pattern
+- **Commands are markdown instructions**: `.claude/commands/*.md` files are instructions that Claude follows at runtime
+- **"Implementing" a command** means updating the markdown with detailed processing instructions
+- **Testing commands** requires actually running them (or verifying the instructions are complete)
+- **For manifest-based updates**: Update `template/manifest.yaml` checksums after modifying command files
+  ```bash
+  # Regenerate manifest after command changes
+  python template/.claude/scripts/generate-manifest.py --version X.Y.Z
+  ```
+
 ## Architecture Quick Reference
 
 ### Module Structure

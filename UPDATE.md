@@ -25,12 +25,43 @@ Use the `/claude-learns.update` command to safely update your installation:
 
 ## Current Version
 
-**Version**: 1.0.0
-**Release Date**: 2026-01-18
+**Version**: 1.1.0
+**Release Date**: 2026-01-19
 
 ---
 
 ## Changelog
+
+### Version 1.1.0 (2026-01-19)
+
+Two major features: template sync and elimination debugging orchestrator pattern.
+
+#### Features
+
+**Template Sync**
+- **Manifest-based updates**: Added `template/manifest.yaml` listing all updateable files with SHA256 checksums
+- **Conflict detection**: Detects when user has modified template files and offers choices (keep local, take update, view diff)
+- **File categories**:
+  - `always_update`: Critical files like the update command itself
+  - `updateable`: Commands and scripts with conflict detection
+  - `merge_only`: Config files that preserve user values while adding new keys
+  - `protected`: User data that is never touched
+- **Backup system**: Modified files are backed up to `.claude-learns-backup/` before overwriting
+- **Manifest generator**: Added `template/.claude/scripts/generate-manifest.py` for maintainers
+
+**Elimination Debugging Orchestrator Pattern**
+- **Orchestrator architecture**: Claude now acts as orchestrator, delegating to specialized subagents
+- **Function-based agents**: HypothesisAgent, ResearchAgent, CodeAnalysisAgent, TestRunnerAgent
+- **Iterative loop**: Orchestrator cycles through agents until convergence criteria met
+- **Script gates preserved**: Existing Python scripts validate work between phases
+- **Phase handoff**: Each subagent completes its phase and returns control to orchestrator
+- **Updated commands**: `/claude-learns.eliminate` and `/claude-learns.eliminate-status` rewritten
+
+#### Changed
+
+- Updated `/claude-learns.update` command with detailed manifest processing instructions
+
+---
 
 ### Version 1.0.0 (2026-01-18)
 

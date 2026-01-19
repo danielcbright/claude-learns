@@ -648,6 +648,22 @@ The system generates hypotheses, gathers discriminating evidence, updates confid
 scores via Bayesian reasoning, and eliminates falsified hypotheses until the root
 cause is identified.
 
+### Orchestrator Architecture
+
+Claude acts as an **orchestrator**, delegating work to specialized subagents:
+
+| Agent | Purpose |
+|-------|---------|
+| **HypothesisAgent** | Generate hypotheses from context, heuristics, and memories |
+| **ResearchAgent** | Search web for prior art, known issues, solutions |
+| **CodeAnalysisAgent** | Analyze code paths using Serena MCP tools |
+| **TestRunnerAgent** | Execute discriminating tests, capture results |
+
+**Flow**: Initialize → HypothesisAgent → [Loop: next → research → analyze → test → checkpoint] → Archive
+
+Each subagent completes its phase and returns control to the orchestrator. Script
+gates (Python scripts) validate work between phases.
+
 ### Key Files
 
 ```

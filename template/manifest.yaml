@@ -1,0 +1,172 @@
+# claude-learns Template Manifest
+# This file lists all updateable template files with their checksums.
+# Used by /claude-learns.update to sync template files to adopted projects.
+#
+# Generated: 2026-01-19
+# To regenerate: python .claude/scripts/generate-manifest.py
+
+version: "1.1.0"
+generated: "2026-01-19"
+base_url: "https://raw.githubusercontent.com/danielcbright/claude-learns/main/template"
+
+files:
+  # ==========================================================================
+  # ALWAYS UPDATE
+  # These files are critical for the update mechanism and are always replaced.
+  # ==========================================================================
+  always_update:
+    - path: ".claude/commands/claude-learns.update.md"
+      checksum: "sha256:329f7518eebac4a05266e7f33bf4959e21c8f10c1011b5c80c33e51bdaee4135"
+
+  # ==========================================================================
+  # UPDATEABLE
+  # These files can be updated with conflict detection.
+  # If user has modified them, they'll be asked to choose: keep local or update.
+  # ==========================================================================
+  updateable:
+    # -------------------------------------------------------------------------
+    # Commands - Core
+    # -------------------------------------------------------------------------
+    - path: ".claude/commands/go.md"
+      checksum: "sha256:f490cbf227bddd01bf3be4dd1c1e1191370fcc855d5c3b45fe815d6e944f732b"
+    - path: ".claude/commands/debug.md"
+      checksum: "sha256:51f585c456bea74f389eb50f7a20d9e8c4cf8cc4eb18c3eebfcbc7a6f10f81a9"
+    - path: ".claude/commands/explore.md"
+      checksum: "sha256:6d7c72d5bcb19883f8716e5a6a1d2f3e306bf92f42f86318eff9aee5186cbb9f"
+    - path: ".claude/commands/refactor.md"
+      checksum: "sha256:ac08f442c1c4b8b111b1a34ea05aa7c3b24a0358ad986cc8317ec3c49d5ad253"
+
+    # -------------------------------------------------------------------------
+    # Commands - Learning & Audit
+    # -------------------------------------------------------------------------
+    - path: ".claude/commands/claude-learns.learn.md"
+      checksum: "sha256:43279e5fc7abdee3dab2691917d8620e97217106ce909af6f286c3a10f8ae5be"
+    - path: ".claude/commands/claude-learns.audit.md"
+      checksum: "sha256:a0805ff79dfda9adcf785101dbfad6ef314754db723207af53d44b715d36263d"
+    - path: ".claude/commands/claude-learns.skills.md"
+      checksum: "sha256:0bcdc7b1ff4c5296dd8102b28a355e936056d78f57d0106f66d6d3d7cfae621c"
+    - path: ".claude/commands/claude-learns.install.md"
+      checksum: "sha256:324bce8f72ef7b2e08e19ccc8167e63415882f97640bb612584314b2c8a98fd5"
+
+    # -------------------------------------------------------------------------
+    # Commands - Elimination Debugging
+    # -------------------------------------------------------------------------
+    - path: ".claude/commands/claude-learns.eliminate.md"
+      checksum: "sha256:afbb1fc1433fb6ac47b2a8811a166d293d7e026513ef889deedada92dd55779a"
+    - path: ".claude/commands/claude-learns.hypothesis.md"
+      checksum: "sha256:4eda91f423d25e1cfd4cc0d6301be756760c73ac72740fbe1bb7f103a4637a81"
+    - path: ".claude/commands/claude-learns.evidence.md"
+      checksum: "sha256:ad552ba9e62ee11580c23ba194142b75b7b6bd5a271e66159595187bb5c6fe99"
+    - path: ".claude/commands/claude-learns.eliminate-status.md"
+      checksum: "sha256:71997b7addd2b4d6f6acc228988095d9c8e14aac59d6a7e47b72633fafbab9f8"
+    - path: ".claude/commands/claude-learns.eliminate-history.md"
+      checksum: "sha256:c171c728be58e1e6825afc2488a6d3032f5b1144ab9781955f8a61d9e467bfd8"
+    - path: ".claude/commands/claude-learns.bisect.md"
+      checksum: "sha256:6816d5958e6b07e5103077124ba20a4e1555d3f525c7b86885133c801c197262"
+
+    # -------------------------------------------------------------------------
+    # Commands - Specification System
+    # -------------------------------------------------------------------------
+    - path: ".claude/commands/claude-learns.spec-create.md"
+      checksum: "sha256:e01c183b8e3a5281f85ac11241e3003df48cb952735884f4e45757d030f4de0d"
+    - path: ".claude/commands/claude-learns.spec-validate.md"
+      checksum: "sha256:5d64f0ce71cf58759a3bfc3c658801f8d976324e1738f8528bd61419d927e685"
+    - path: ".claude/commands/claude-learns.spec-debug.md"
+      checksum: "sha256:d9d76e632ec7321d29de34f30202ac4df00500911751a11ea146cb92fdcc2c6a"
+    - path: ".claude/commands/claude-learns.spec-deviation.md"
+      checksum: "sha256:000e3bd67c19b327b66ca0ded6601293c893456fae1807d2eb16ab569db1a603"
+    - path: ".claude/commands/claude-learns.spec-list.md"
+      checksum: "sha256:7da02cc99d628e5cc4e5b70976af74fe5c6b80d1538428e7d3d506931c441072"
+    - path: ".claude/commands/claude-learns.spec-verify.md"
+      checksum: "sha256:d1024516ded9ea6f7f8da52decd19d27af525653cddc12eca8166531cfe4d951"
+    - path: ".claude/commands/claude-learns.spec-correction.md"
+      checksum: "sha256:0e6354ffa18f89a14c861d8626b9c39480083c2ad418ab57d8bd85c852ede6e0"
+
+    # -------------------------------------------------------------------------
+    # Scripts - Elimination
+    # -------------------------------------------------------------------------
+    - path: ".claude/scripts/elimination/eliminate_init.py"
+      checksum: "sha256:dce1368c27d014f5f2690423335f959799d24ae57f83bda3e5d827d2d518d0c4"
+    - path: ".claude/scripts/elimination/eliminate_status.py"
+      checksum: "sha256:84a6c359932416c6c9d80ce8cad61fb8e36c23f3f226ab6ce6553389100d64cd"
+    - path: ".claude/scripts/elimination/eliminate_next.py"
+      checksum: "sha256:62d1636e0284aa8c89e10e5abc01374de5b57bab6c55acdfbd1905e0c4179df6"
+    - path: ".claude/scripts/elimination/eliminate_checkpoint.py"
+      checksum: "sha256:1db36541f40052970e5c8f7889d58ceb56ebe6f080ab7520b9f297303b3a583f"
+    - path: ".claude/scripts/elimination/eliminate_archive.py"
+      checksum: "sha256:99ba3aa68005a0a2d5aff362216f7b35824b93b3ceec805ccb3b8b684fccfb1d"
+    - path: ".claude/scripts/elimination/eliminate_research.py"
+      checksum: "sha256:09ecfdb3a06055059c0bdb0a654710022ec6f9214c159574c603ae19f3ad05f6"
+
+    # -------------------------------------------------------------------------
+    # Skills
+    # -------------------------------------------------------------------------
+    - path: ".claude/skills/skill-creator/SKILL.md"
+      checksum: "sha256:fc448bda6dbfd7eebcf30dc7ac1af3d6cdd7d20ca6e7154b919207c62b060f2b"
+
+  # ==========================================================================
+  # MERGE ONLY
+  # Config files where new keys are added but existing values are preserved.
+  # ==========================================================================
+  merge_only:
+    - path: ".elimination/config.yaml"
+      checksum: "sha256:8cd733df520f58698cf8d0b67220888606170ece026e5ea895ab5a9913021588"
+    - path: ".elimination/learned/heuristics.yaml"
+      checksum: "sha256:660679c751b088322136e49069892f70f5fe9e374487bf496ddf141f1bdd113b"
+    - path: ".specify/config.yaml"
+      checksum: "sha256:0af0fa4e4be91fa070b738115a5516c0fbf907e948f4c1388e7786a55c7ffbb0"
+
+  # ==========================================================================
+  # PROTECTED
+  # These paths are NEVER modified by /update. Listed for documentation only.
+  # ==========================================================================
+  protected:
+    - ".serena/memories/*"
+    - ".specify/specs/*"
+    - ".specify/memory/constitution.md"
+    - ".specify/memory/corrections.md"
+    - ".elimination/active/*"
+    - ".elimination/archive/*"
+
+# ==========================================================================
+# ORIGINAL CHECKSUMS
+# Used for conflict detection: if local differs from both original AND latest,
+# user has modified the file and needs to choose what to do.
+#
+# Initially, original_checksums = current checksums (fresh install).
+# After an update, original_checksums are updated to the NEW checksums,
+# so future updates can detect user modifications.
+# ==========================================================================
+original_checksums:
+  ".claude/commands/claude-learns.update.md": "sha256:329f7518eebac4a05266e7f33bf4959e21c8f10c1011b5c80c33e51bdaee4135"
+  ".claude/commands/go.md": "sha256:f490cbf227bddd01bf3be4dd1c1e1191370fcc855d5c3b45fe815d6e944f732b"
+  ".claude/commands/debug.md": "sha256:51f585c456bea74f389eb50f7a20d9e8c4cf8cc4eb18c3eebfcbc7a6f10f81a9"
+  ".claude/commands/explore.md": "sha256:6d7c72d5bcb19883f8716e5a6a1d2f3e306bf92f42f86318eff9aee5186cbb9f"
+  ".claude/commands/refactor.md": "sha256:ac08f442c1c4b8b111b1a34ea05aa7c3b24a0358ad986cc8317ec3c49d5ad253"
+  ".claude/commands/claude-learns.learn.md": "sha256:43279e5fc7abdee3dab2691917d8620e97217106ce909af6f286c3a10f8ae5be"
+  ".claude/commands/claude-learns.audit.md": "sha256:a0805ff79dfda9adcf785101dbfad6ef314754db723207af53d44b715d36263d"
+  ".claude/commands/claude-learns.skills.md": "sha256:0bcdc7b1ff4c5296dd8102b28a355e936056d78f57d0106f66d6d3d7cfae621c"
+  ".claude/commands/claude-learns.install.md": "sha256:324bce8f72ef7b2e08e19ccc8167e63415882f97640bb612584314b2c8a98fd5"
+  ".claude/commands/claude-learns.eliminate.md": "sha256:afbb1fc1433fb6ac47b2a8811a166d293d7e026513ef889deedada92dd55779a"
+  ".claude/commands/claude-learns.hypothesis.md": "sha256:4eda91f423d25e1cfd4cc0d6301be756760c73ac72740fbe1bb7f103a4637a81"
+  ".claude/commands/claude-learns.evidence.md": "sha256:ad552ba9e62ee11580c23ba194142b75b7b6bd5a271e66159595187bb5c6fe99"
+  ".claude/commands/claude-learns.eliminate-status.md": "sha256:71997b7addd2b4d6f6acc228988095d9c8e14aac59d6a7e47b72633fafbab9f8"
+  ".claude/commands/claude-learns.eliminate-history.md": "sha256:c171c728be58e1e6825afc2488a6d3032f5b1144ab9781955f8a61d9e467bfd8"
+  ".claude/commands/claude-learns.bisect.md": "sha256:6816d5958e6b07e5103077124ba20a4e1555d3f525c7b86885133c801c197262"
+  ".claude/commands/claude-learns.spec-create.md": "sha256:e01c183b8e3a5281f85ac11241e3003df48cb952735884f4e45757d030f4de0d"
+  ".claude/commands/claude-learns.spec-validate.md": "sha256:5d64f0ce71cf58759a3bfc3c658801f8d976324e1738f8528bd61419d927e685"
+  ".claude/commands/claude-learns.spec-debug.md": "sha256:d9d76e632ec7321d29de34f30202ac4df00500911751a11ea146cb92fdcc2c6a"
+  ".claude/commands/claude-learns.spec-deviation.md": "sha256:000e3bd67c19b327b66ca0ded6601293c893456fae1807d2eb16ab569db1a603"
+  ".claude/commands/claude-learns.spec-list.md": "sha256:7da02cc99d628e5cc4e5b70976af74fe5c6b80d1538428e7d3d506931c441072"
+  ".claude/commands/claude-learns.spec-verify.md": "sha256:d1024516ded9ea6f7f8da52decd19d27af525653cddc12eca8166531cfe4d951"
+  ".claude/commands/claude-learns.spec-correction.md": "sha256:0e6354ffa18f89a14c861d8626b9c39480083c2ad418ab57d8bd85c852ede6e0"
+  ".claude/scripts/elimination/eliminate_init.py": "sha256:dce1368c27d014f5f2690423335f959799d24ae57f83bda3e5d827d2d518d0c4"
+  ".claude/scripts/elimination/eliminate_status.py": "sha256:84a6c359932416c6c9d80ce8cad61fb8e36c23f3f226ab6ce6553389100d64cd"
+  ".claude/scripts/elimination/eliminate_next.py": "sha256:62d1636e0284aa8c89e10e5abc01374de5b57bab6c55acdfbd1905e0c4179df6"
+  ".claude/scripts/elimination/eliminate_checkpoint.py": "sha256:1db36541f40052970e5c8f7889d58ceb56ebe6f080ab7520b9f297303b3a583f"
+  ".claude/scripts/elimination/eliminate_archive.py": "sha256:99ba3aa68005a0a2d5aff362216f7b35824b93b3ceec805ccb3b8b684fccfb1d"
+  ".claude/scripts/elimination/eliminate_research.py": "sha256:09ecfdb3a06055059c0bdb0a654710022ec6f9214c159574c603ae19f3ad05f6"
+  ".claude/skills/skill-creator/SKILL.md": "sha256:fc448bda6dbfd7eebcf30dc7ac1af3d6cdd7d20ca6e7154b919207c62b060f2b"
+  ".elimination/config.yaml": "sha256:8cd733df520f58698cf8d0b67220888606170ece026e5ea895ab5a9913021588"
+  ".elimination/learned/heuristics.yaml": "sha256:660679c751b088322136e49069892f70f5fe9e374487bf496ddf141f1bdd113b"
+  ".specify/config.yaml": "sha256:0af0fa4e4be91fa070b738115a5516c0fbf907e948f4c1388e7786a55c7ffbb0"

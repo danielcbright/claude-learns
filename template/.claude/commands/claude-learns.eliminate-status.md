@@ -96,6 +96,27 @@ Adds:
 | ↓ | Decreasing | Confidence trending down |
 | → | Stable | No significant change |
 
+## Integration with Orchestrator
+
+When using the orchestrator pattern (`/claude-learns.eliminate`):
+
+- **Run between subagent calls** to verify state
+- **Check after each checkpoint** to see convergence progress
+- **Use before launching TestRunnerAgent** to confirm next hypothesis
+- **Verify script gates passed** by checking hypothesis file existence
+
+### Orchestrator Usage
+
+```
+# As orchestrator, check status after each iteration
+Orchestrator: Checking status after TestRunnerAgent...
+/claude-learns.eliminate-status
+
+# Verify state before proceeding
+Orchestrator: Status shows H3 at 0.78, not yet converged.
+Continuing to next iteration...
+```
+
 ## Integration
 
 - Run anytime during `/claude-learns.eliminate` session
