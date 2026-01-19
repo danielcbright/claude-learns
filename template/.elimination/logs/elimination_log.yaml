@@ -1,0 +1,15 @@
+# Elimination Log
+# Records all elimination decisions for audit trail and learning
+# This file is populated when /eliminate sessions are run
+
+session_id: null
+
+entries: []
+
+# Summary statistics (populated by elimination system)
+summary:
+  total_eliminations: 0
+  hard_eliminations: 0
+  soft_eliminations: 0
+  resurrections: 0
+  confirmations: 0

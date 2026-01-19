@@ -1,0 +1,87 @@
+# Hypothesis File Template
+# One file per hypothesis in .elimination/active/hypotheses/
+
+id: "hyp-001"
+description: "Race condition in OrderService request handler causing intermittent failures under concurrent load"
+
+# Categorization
+domain: concurrency  # code, config, dependencies, data, infrastructure, concurrency
+source: pattern_matched  # generated, pattern_matched, user_suggested, derived
+status: active  # active, unlikely, eliminated, confirmed, verified
+
+# Confidence tracking
+confidence:
+  initial: 0.65  # Starting confidence (from heuristic or default)
+  current: 0.78  # Current confidence after evidence
+  history:
+    - timestamp: "2026-01-18T10:30:00Z"
+      value: 0.65
+      reason: "Initial (heuristic: load_correlation_concurrency)"
+    - timestamp: "2026-01-18T10:48:00Z"
+      value: 0.58
+      reason: "Evidence ev-003: Errors correlate with RPS"
+    - timestamp: "2026-01-18T10:55:00Z"
+      value: 0.78
+      reason: "Evidence ev-004: Lock contention detected"
+  trend: increasing  # increasing, decreasing, stable
+
+# Evidence links
+evidence:
+  supporting:
+    - id: "ev-003"
+      summary: "Error rate correlates with requests per second"
+      weight: 0.70
+      timestamp: "2026-01-18T10:48:00Z"
+    - id: "ev-004"
+      summary: "Lock contention detected in SharedCache.get() calls"
+      weight: 0.80
+      timestamp: "2026-01-18T10:55:00Z"
+  contradicting: []
+  neutral: []
+
+# Relationships to other hypotheses
+relationships:
+  parent_id: null  # If this is a refined/derived hypothesis
+  child_ids: []    # Sub-hypotheses for more specific investigation
+  conflicts_with: []  # Mutually exclusive hypotheses
+  related_to:
+    - id: "hyp-004"
+      relationship: "both involve request handling"
+
+# If confirmed, what fix is proposed
+proposed_fix:
+  description: "Replace shared cache with request-scoped cache in OrderService"
+  files_affected:
+    - "src/services/OrderService.ts"
+    - "src/cache/SharedCache.ts"
+  estimated_effort: "medium"
+  risk_level: "low"
+
+# Suggested tests to discriminate this hypothesis
+suggested_tests:
+  - description: "Add mutex logging around cache access"
+    expected_if_true: "Lock wait times correlate with errors"
+    expected_if_false: "No lock contention observed"
+    priority: high
+  - description: "Test with single-threaded execution"
+    expected_if_true: "Errors disappear with single thread"
+    expected_if_false: "Errors persist regardless of threading"
+    priority: medium
+
+# Metadata
+metadata:
+  created_at: "2026-01-18T10:30:00Z"
+  created_by: "elimination_system"
+  last_updated: "2026-01-18T10:55:00Z"
+  context_tags:
+    - "api-timeout"
+    - "concurrency"
+    - "performance"
+    - "order-service"
+  heuristic_matched: "heur-001"
+
+# Rollback information (for resurrection if eliminated incorrectly)
+rollback_info:
+  can_rollback: true
+  elimination_reason: null  # Populated if eliminated
+  last_state_before_elimination: null

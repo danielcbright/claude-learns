@@ -1,0 +1,65 @@
+# Tool Update Registry
+# Created by claude-learns template
+#
+# This file tracks installed tools and their update sources.
+# Add new tools here to include them in /update checks.
+#
+# Usage:
+#   /update              - Check all tools for updates
+#   /update --list       - List registered tools
+#   /update [tool-name]  - Update specific tool
+#   /update --rollback   - Rollback last update
+
+registry_version: "1.0"
+created_date: "2026-01-18"
+
+tools:
+  # ============================================================================
+  # claude-learns Template
+  # ============================================================================
+  claude-learns:
+    type: template
+    description: "Self-learning Claude Code template with persistent memory"
+    source: https://github.com/danielcbright/claude-learns
+    docs_url: https://raw.githubusercontent.com/danielcbright/claude-learns/main/UPDATE.md
+    install_docs: https://raw.githubusercontent.com/danielcbright/claude-learns/main/INSTALL.md
+    installed_version: "1.0.0"
+    installed_date: "2026-01-18"
+
+  # ============================================================================
+  # MCP Servers
+  # ============================================================================
+  serena:
+    type: mcp-server
+    description: "Code navigation and semantic editing"
+    source: https://github.com/oraios/serena
+    docs_url: https://raw.githubusercontent.com/oraios/serena/main/README.md
+    install_command: "claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context claude-code --project $(pwd)"
+    installed_version: null  # Detected at runtime via /mcp
+
+  context7:
+    type: mcp-server
+    description: "External library documentation lookup"
+    source: https://github.com/upstash/context7
+    docs_url: https://raw.githubusercontent.com/upstash/context7/main/README.md
+    install_command: null  # Fetched from documentation
+    installed_version: null
+
+  # ============================================================================
+  # Add additional tools below
+  # ============================================================================
+  #
+  # Example entry:
+  #
+  #   my-tool:
+  #     type: mcp-server | template | cli-tool
+  #     description: "What this tool does"
+  #     source: https://github.com/org/repo
+  #     docs_url: https://raw.githubusercontent.com/org/repo/main/README.md
+  #     install_command: "optional installation command"
+  #     installed_version: null
+  #
+  # Types:
+  #   - mcp-server: MCP server (uses claude mcp add/remove)
+  #   - template: File-based template (uses file merge)
+  #   - cli-tool: Command-line tool (uses custom install command)

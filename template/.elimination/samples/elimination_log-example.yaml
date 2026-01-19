@@ -1,0 +1,88 @@
+# Elimination Log
+# Records all elimination decisions for audit trail and learning
+
+session_id: "session-2026-01-18-001"
+
+entries:
+  # Example: Hard elimination
+  - entry_id: "elog-001"
+    timestamp: "2026-01-18T10:42:00Z"
+    hypothesis_id: "hyp-003"
+    hypothesis_description: "Memory leak causing OOM"
+    
+    action: hard_eliminate  # soft_eliminate, hard_eliminate, resurrect, confirm
+    
+    outcome:
+      previous_status: active
+      new_status: eliminated
+      previous_confidence: 0.40
+      new_confidence: 0.04
+      confidence_delta: -0.36
+    
+    reasoning:
+      summary: "Memory usage stable over 24 hours, no growth pattern detected"
+      evidence_considered:
+        - id: "ev-002"
+          summary: "Memory at 2.1GB, stable for 24 hours"
+          weight: 0.90
+          direction: contradicts
+      decision_factors:
+        - factor: "Memory usage flat-lined, no growth trend"
+          contribution: -0.25
+        - factor: "No OOM events in logs despite error occurrence"
+          contribution: -0.11
+    
+    rollback_info:
+      can_rollback: true
+      resurrection_threshold: 0.10
+      previous_state:
+        status: active
+        confidence: 0.40
+        evidence_supporting: []
+        evidence_contradicting: []
+
+  # Example: Soft elimination
+  - entry_id: "elog-002"
+    timestamp: "2026-01-18T10:35:00Z"
+    hypothesis_id: "hyp-002"
+    hypothesis_description: "Database connection pool exhaustion"
+    
+    action: soft_eliminate
+    
+    outcome:
+      previous_status: active
+      new_status: unlikely
+      previous_confidence: 0.70
+      new_confidence: 0.18
+      confidence_delta: -0.52
+    
+    reasoning:
+      summary: "Connection pool metrics healthy during error spikes"
+      evidence_considered:
+        - id: "ev-001"
+          summary: "Connections at 45/100 during error spikes"
+          weight: 0.85
+          direction: contradicts
+      decision_factors:
+        - factor: "Pool had 55% headroom during worst errors"
+          contribution: -0.40
+        - factor: "Connection acquisition time normal (<10ms)"
+          contribution: -0.12
+    
+    rollback_info:
+      can_rollback: true
+      resurrection_threshold: 0.25
+      previous_state:
+        status: active
+        confidence: 0.70
+
+# Summary statistics
+summary:
+  total_eliminations: 2
+  hard_eliminations: 1
+  soft_eliminations: 1
+  resurrections: 0
+  confirmations: 0
+  
+  elimination_rate: 0.40  # 2 of 5 hypotheses
+  average_confidence_at_elimination: 0.22

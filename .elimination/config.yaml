@@ -1,0 +1,144 @@
+# Elimination System Configuration
+# Adjust these values based on your project's needs
+
+# Confidence thresholds for hypothesis status changes
+elimination:
+  # Hard eliminate when confidence drops below this (hypothesis very unlikely)
+  hard_threshold: 0.05
+  
+  # Soft eliminate (mark as unlikely) below this threshold
+  soft_threshold: 0.25
+  
+  # Confirm hypothesis when confidence exceeds this
+  confirmation_threshold: 0.90
+  
+  # Require this many pieces of evidence before hard elimination
+  # Prevents premature elimination based on single observation
+  require_minimum_evidence: 2
+  
+  # Allow resurrecting eliminated hypotheses if contradictory evidence emerges
+  allow_resurrection: true
+  
+  # Confidence threshold for resurrection consideration
+  resurrection_threshold: 0.10
+
+# Convergence criteria - when to stop the elimination loop
+convergence:
+  # Maximum iterations before forced stop
+  max_iterations: 20
+  
+  # Stop if information gain per iteration drops below this
+  min_information_gain: 0.01
+  
+  # Stop if leading hypothesis is this much ahead of second place
+  separation_margin: 0.30
+  
+  # Stop if any hypothesis reaches this confidence
+  confidence_ceiling: 0.95
+
+# Bayesian update parameters
+bayesian:
+  # How much supporting evidence increases confidence
+  # new = old * (1 + weight * support_multiplier)
+  support_multiplier: 0.5
+  
+  # How much contradicting evidence decreases confidence
+  # new = old * (1 - weight * contradict_multiplier)
+  contradict_multiplier: 0.7
+  
+  # Minimum confidence (never go below this)
+  confidence_floor: 0.01
+  
+  # Maximum confidence (never exceed this)
+  confidence_ceiling: 0.99
+
+# Default prior probabilities by domain
+# These are starting confidences when no learned pattern matches
+domain_priors:
+  code: 0.35
+  config: 0.20
+  dependencies: 0.15
+  data: 0.15
+  infrastructure: 0.10
+  concurrency: 0.05
+
+# Hypothesis generation settings
+hypothesis_generation:
+  # Minimum number of hypotheses to generate
+  min_hypotheses: 3
+  
+  # Maximum number of hypotheses to generate
+  max_hypotheses: 10
+  
+  # Always include at least one hypothesis from each domain
+  ensure_domain_coverage: false
+  
+  # Use learned patterns to adjust initial confidence
+  apply_learned_patterns: true
+
+# Learning settings
+learning:
+  # Generate self-reflection after each session
+  enable_reflection: true
+  
+  # Update heuristic statistics after resolution
+  update_heuristics: true
+  
+  # Minimum sessions before trusting a heuristic's statistics
+  heuristic_min_samples: 3
+  
+  # Deprecate heuristics with success rate below this
+  heuristic_deprecation_threshold: 0.40
+
+# Archive settings
+archive:
+  # Archive completed sessions
+  enabled: true
+  
+  # Archive path pattern (supports date variables)
+  path_pattern: ".elimination/archive/{year}-{month}/session-{id}/"
+  
+  # Include full reasoning traces in archive
+  include_traces: true
+  
+  # Compress archived sessions older than N days
+  compress_after_days: 30
+
+# Logging settings
+logging:
+  # Log all elimination decisions
+  log_eliminations: true
+
+  # Log all evidence recordings
+  log_evidence: true
+
+  # Log confidence updates
+  log_confidence_changes: true
+
+  # Verbosity level: minimal, standard, verbose
+  verbosity: standard
+
+# Spec-Kit Integration
+# Integration with .specify/ specification system
+spec_integration:
+  # Generate hypotheses from spec deviations during debugging
+  generate_hypotheses_from_deviations: true
+
+  # Initial confidence for hypotheses generated from spec deviations
+  # Higher than default (0.35) because spec deviations are strong signals
+  spec_deviation_hypothesis_confidence: 0.70
+
+  # Use spec as authoritative evidence source
+  use_spec_as_evidence: true
+
+  # Session type marker for spec-based debugging
+  session_type: "spec_deviation_debug"
+
+  # Path to specs directory
+  specs_directory: ".specify/specs"
+
+  # Path to deviations directory
+  deviations_directory: ".specify/deviations"
+
+  # Auto-validate against spec after fix verification
+  auto_validate_after_fix: true

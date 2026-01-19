@@ -1,0 +1,77 @@
+# Spec-Kit Configuration
+# Integration with elimination debugging and memory systems
+
+# Core spec-kit settings
+spec_kit:
+  # Version of the spec configuration
+  version: "1.0"
+
+  # Default spec location
+  specs_directory: ".specify/specs"
+
+  # Default template for new specs
+  default_template: "feature-spec"
+
+  # Require spec approval before implementation
+  require_approval: false
+
+# Integration with elimination debugging system
+elimination_integration:
+  # Generate hypotheses from spec deviations during debugging
+  generate_hypotheses_from_deviations: true
+
+  # Initial confidence for hypotheses generated from spec deviations
+  # Higher than default (0.35) because spec deviations are strong signals
+  spec_deviation_hypothesis_confidence: 0.70
+
+  # Use spec as authoritative evidence source
+  use_spec_as_evidence: true
+
+  # Session type marker for spec-based debugging
+  session_type: "spec_deviation_debug"
+
+# Validation settings
+validation:
+  # Check spec exists before implementation
+  require_spec_before_implementation: false
+
+  # Validation strictness: loose, moderate, strict
+  strictness: "moderate"
+
+  # Auto-generate deviation log for mismatches
+  auto_log_deviations: true
+
+# Deviation tracking
+deviations:
+  # Directory for deviation logs
+  directory: ".specify/deviations"
+
+  # Require approval for intentional deviations
+  require_approval_for_intentional: true
+
+  # Categories of deviations
+  categories:
+    - technical_constraint
+    - user_request
+    - performance_optimization
+    - security_requirement
+    - temporary_workaround
+
+# Memory integration
+memory:
+  # Sync spec decisions to memory system
+  sync_to_memory: true
+
+  # Memory file for decision log
+  decision_log: "decision-log"
+
+  # Memory file for common bugs
+  common_bugs: "common-bugs"
+
+# Templates
+templates:
+  directory: ".specify/templates"
+  available:
+    - feature-spec
+    - bug-fix-spec
+    - refactor-spec

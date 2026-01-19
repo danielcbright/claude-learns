@@ -84,10 +84,23 @@ insert_after_symbol("existingFunc", code)     # Add after existing
 
 ## Common Gotchas
 
-<!-- Add project-specific issues Claude should know about -->
-- [Document any non-obvious behaviors or edge cases]
-- [Include workarounds for known issues]
-- [Note any dependencies or setup requirements]
+### Template Development (claude-learns specific)
+- **Source from `template/`**: The `/install` command MUST copy from `template/` directory, not root-level files
+- **Root files are working copies**: Root-level `.claude/`, `.serena/`, etc. are for development - they get modified during testing
+- **Sync before release**: Use rsync to copy root → `template/` and replace dev content with placeholders
+- **Test in `test-projects/`**: Use `/install test-projects/minimal-go` to test installation without affecting template/
+
+### Sync Workflow
+```bash
+# Dry run first
+rsync -av --dry-run .claude/ template/.claude/
+rsync -av --dry-run .serena/ template/.serena/
+rsync -av --dry-run .elimination/ template/.elimination/
+rsync -av --dry-run .specify/ template/.specify/
+
+# Then sync (remove --dry-run)
+# After sync: replace project-specific content with [PLACEHOLDERS]
+```
 
 ## Architecture Quick Reference
 

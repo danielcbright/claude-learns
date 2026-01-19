@@ -1,0 +1,192 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# ROUTING GUIDE
+# ─────────────
+# WHEN TO USE: Statistical debugging patterns with confidence scores (machine-readable)
+# WRITTEN BY: /eliminate (statistics), /learn (new heuristics)
+# NOT FOR: Human-readable quick reference (use elimination_patterns.md)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Learned Elimination Heuristics
+# These patterns are discovered through debugging sessions and updated automatically
+
+heuristics:
+  # Pattern: Errors correlating with load often indicate concurrency issues
+  - id: "heur-001"
+    name: "load_correlation_concurrency"
+    description: "When errors correlate with request rate or load, prioritize concurrency hypotheses"
+    
+    trigger_conditions:
+      - condition: "error_rate correlates with request_rate"
+      - condition: "errors increase under load testing"
+      - condition: "intermittent failures during peak hours"
+    
+    hypothesis_template:
+      domain: concurrency
+      description_template: "Race condition or lock contention causing {symptom} under load"
+      initial_confidence: 0.65
+      suggested_evidence:
+        - type: "concurrent_request_logging"
+          description: "Add logging around shared resource access"
+          priority: high
+        - type: "lock_analysis"
+          description: "Check for lock contention in thread dumps"
+          priority: high
+        - type: "load_test_isolation"
+          description: "Test with single vs multiple concurrent requests"
+          priority: medium
+    
+    statistics:
+      times_triggered: 0
+      successful_predictions: 0
+      success_rate: 0.0
+      last_updated: null
+
+  # Pattern: Database-related symptoms often have connection pool issues
+  - id: "heur-002"
+    name: "database_timeout_pattern"
+    description: "When timeouts correlate with DB operations, check connection pool first"
+    
+    trigger_conditions:
+      - condition: "timeout errors on database operations"
+      - condition: "slow queries or query timeouts"
+      - condition: "connection refused or pool exhausted errors"
+    
+    hypothesis_template:
+      domain: infrastructure
+      description_template: "Database connection pool exhaustion or misconfiguration causing {symptom}"
+      initial_confidence: 0.70
+      suggested_evidence:
+        - type: "db_pool_metrics"
+          description: "Check active/idle/max connection counts"
+          priority: high
+        - type: "slow_query_log"
+          description: "Review slow query logs for blocking queries"
+          priority: high
+        - type: "connection_timing"
+          description: "Measure connection acquisition time"
+          priority: medium
+    
+    statistics:
+      times_triggered: 0
+      successful_predictions: 0
+      success_rate: 0.0
+      last_updated: null
+
+  # Pattern: After deployments, config drift is common
+  - id: "heur-003"
+    name: "post_deploy_config"
+    description: "Issues appearing after deployment often relate to configuration changes"
+    
+    trigger_conditions:
+      - condition: "problem started after recent deployment"
+      - condition: "works in some environments but not others"
+      - condition: "feature flag or environment variable mentioned"
+    
+    hypothesis_template:
+      domain: config
+      description_template: "Configuration mismatch or drift causing {symptom} after deployment"
+      initial_confidence: 0.60
+      suggested_evidence:
+        - type: "config_diff"
+          description: "Compare configs between working and failing environments"
+          priority: high
+        - type: "env_var_audit"
+          description: "List all environment variables, check for missing/changed"
+          priority: high
+        - type: "deploy_changelog"
+          description: "Review what changed in recent deployment"
+          priority: medium
+    
+    statistics:
+      times_triggered: 0
+      successful_predictions: 0
+      success_rate: 0.0
+      last_updated: null
+
+  # Pattern: Dependency updates causing breakages
+  - id: "heur-004"
+    name: "dependency_version_issues"
+    description: "After dependency updates, version conflicts are common culprits"
+    
+    trigger_conditions:
+      - condition: "issue started after npm/pip/etc update"
+      - condition: "version mismatch errors in logs"
+      - condition: "peer dependency warnings"
+    
+    hypothesis_template:
+      domain: dependencies
+      description_template: "Dependency version conflict or breaking change causing {symptom}"
+      initial_confidence: 0.65
+      suggested_evidence:
+        - type: "lockfile_diff"
+          description: "Compare package-lock.json / yarn.lock changes"
+          priority: high
+        - type: "changelog_review"
+          description: "Check changelogs for breaking changes"
+          priority: high
+        - type: "version_rollback_test"
+          description: "Test with previous dependency versions"
+          priority: medium
+    
+    statistics:
+      times_triggered: 0
+      successful_predictions: 0
+      success_rate: 0.0
+      last_updated: null
+
+  # Pattern: Memory issues with specific signatures
+  - id: "heur-005"
+    name: "memory_growth_pattern"
+    description: "Gradual performance degradation with memory growth indicates leaks"
+    
+    trigger_conditions:
+      - condition: "performance degrades over time"
+      - condition: "memory usage grows steadily"
+      - condition: "OOM errors or kills"
+    
+    hypothesis_template:
+      domain: code
+      description_template: "Memory leak in {area} causing {symptom}"
+      initial_confidence: 0.55
+      suggested_evidence:
+        - type: "heap_snapshot"
+          description: "Take heap snapshots at intervals, compare"
+          priority: high
+        - type: "memory_profiling"
+          description: "Profile memory allocation patterns"
+          priority: high
+        - type: "gc_analysis"
+          description: "Check GC behavior and retained objects"
+          priority: medium
+    
+    statistics:
+      times_triggered: 0
+      successful_predictions: 0
+      success_rate: 0.0
+      last_updated: null
+
+# Meta-heuristics for hypothesis generation
+meta_heuristics:
+  # When to generate more hypotheses
+  expand_hypothesis_space_when:
+    - "all initial hypotheses eliminated"
+    - "confidence spread is low (all < 0.5)"
+    - "evidence contradicts all current hypotheses"
+  
+  # When to focus on fewer hypotheses
+  narrow_focus_when:
+    - "clear leader emerged (> 0.7 confidence)"
+    - "evidence consistently supports one domain"
+    - "time pressure requires faster resolution"
+
+# Heuristic lifecycle management
+lifecycle:
+  # Auto-deprecate heuristics that consistently fail
+  auto_deprecate: true
+  deprecation_threshold: 0.35
+  min_samples_for_deprecation: 5
+  
+  # Promote promising patterns to heuristics
+  auto_promote: true
+  promotion_threshold: 0.70
+  min_samples_for_promotion: 3
