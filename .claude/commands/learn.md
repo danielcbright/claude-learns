@@ -5,6 +5,8 @@ Perform a learning loop review for this session, routing learnings to the correc
 **Modes:**
 - `/learn` → Quick mode: identify learnings, show routing, ask before writing
 - `/learn --deep` → Full mode: comprehensive analysis with all templates
+- `/learn --skills` → Skills mode: check for applicable Anthropic skills only
+- `/learn --claude` → CLAUDE.md mode: fetch best practices and update CLAUDE.md only
 
 ---
 
@@ -50,11 +52,28 @@ Fast identification and routing. Scan session and output:
 
 ---
 
-Want me to write these? (y/n)
+## CLAUDE.md Updates
+
+Fetching latest best practices from Anthropic...
+→ **Key Entry Points** - Add `OrderService` at `src/services/order.ts`
+→ **Health Check** - ⚠️ Missing "Code Conventions" section
+
+## Skill Suggestions
+
+Checking anthropics/skills for applicable skills...
+→ **webapp-testing** may help (you worked on form validation)
+  Install: `/plugin install webapp-testing@anthropic-agent-skills`
+
+---
+
+Want me to apply these? (y = all / n = none / numbers = select specific)
 ```
 
-If **yes**: Write each learning to its destination with minimal formatting.
-If **no**: End without writing.
+If **yes/y**: Write memories, update CLAUDE.md, install accepted skills.
+If **no/n**: End without writing.
+If **numbers** (e.g., "1,3,5"): Apply only selected items.
+If **skills-only**: Skip memories/CLAUDE.md, only install skills.
+If **claude-only**: Skip memories/skills, only update CLAUDE.md.
 
 ### Quick Mode Categorization
 
@@ -229,19 +248,334 @@ Check for completed elimination sessions in `.elimination/archive/`:
 → .serena/memories/common-bugs.md
   - Added: {feature}: {bug pattern}
 
-## CLAUDE.md Updates
-  - {section}: {what changed}
+## CLAUDE.md Updates (fetched latest best practices from Anthropic)
+
+### Additions
+→ Key Entry Points
+  - Added: `{Symbol}` at `{path}`
+
+→ Current Memories
+  - Added: `{memory-name}` - {purpose}
+
+→ Active Skills
+  - Added: {skill-name} - {purpose}
+
+### Health Check
+  - ✅ {passing check}
+  - ⚠️ {suggestion}
+
+## Skill Suggestions
+→ {skill-name} may help ({reason})
+  Install: `/plugin install {skill}@anthropic-agent-skills`
 
 ## No Destination (Need Input)
   - "{learning that didn't fit}" → Where should this go?
 ```
 
-### Step 4: CLAUDE.md and Skill Updates
+### Step 4: CLAUDE.md Updates
 
-- Does any guidance need correction?
-- Should new memories be added to the "Current Memories" table?
-- Were any entry points discovered?
-- Would any learning help OTHER projects? → Update skill at `~/.claude/skills/*/skill.md`
+Apply the **CLAUDE.md Updates** process (see full section below):
+
+1. **Fetch latest best practices** from Anthropic docs
+2. **Analyze session** for CLAUDE.md-worthy learnings:
+   - New entry points discovered? → Key Entry Points table
+   - New memories created? → Current Memories table
+   - New skills installed? → Active Skills section
+   - Workflow improvements? → Common Workflows section
+   - Code conventions discovered? → Code Conventions section
+   - Bash commands worth saving? → Quick Reference section
+3. **Run health check** against Anthropic guidelines
+4. **Present updates** with specific edits
+5. **Apply if approved** using Edit tool
+
+### Step 5: Anthropic Skills Discovery
+
+Check if any official Anthropic skills would benefit this project. See the full **Anthropic Skills Discovery** section below.
+
+---
+
+## Anthropic Skills Discovery
+
+**Always run this check** as part of `/learn` and `/learn --deep`. This step fetches the latest skills from the official Anthropic repository and suggests applicable ones based on session patterns.
+
+### Available Anthropic Skills
+
+Fetch the current skill list from: `https://github.com/anthropics/skills/tree/main/skills`
+
+As of last update, available skills include:
+
+| Skill | Purpose | Suggested When |
+|-------|---------|----------------|
+| `algorithmic-art` | Generate algorithmic/generative art | Session involved creative coding, canvas, SVG generation |
+| `brand-guidelines` | Apply brand consistency | Session involved branding, style guides, design systems |
+| `canvas-design` | Create canvas-based designs | Session involved HTML canvas, visualizations |
+| `doc-coauthoring` | Collaborative document editing | Session involved document workflows, content creation |
+| `docx` | Word document processing | Session involved .docx files, Word documents |
+| `frontend-design` | Build frontend interfaces | Session involved UI development, web components |
+| `internal-comms` | Internal communications | Session involved company communications, announcements |
+| `mcp-builder` | Build MCP servers | Session involved creating MCP integrations |
+| `pdf` | PDF processing | Session involved PDF files, extraction, manipulation |
+| `pptx` | PowerPoint processing | Session involved presentations, slides |
+| `skill-creator` | Create new skills | Session involved building custom skills |
+| `slack-gif-creator` | Create Slack GIFs | Session involved Slack content, animated images |
+| `theme-factory` | Generate themes/styling | Session involved theming, color schemes, CSS |
+| `web-artifacts-builder` | Build web artifacts | Session involved web components, embeddable content |
+| `webapp-testing` | Test web applications | Session involved testing, QA, browser automation |
+| `xlsx` | Excel processing | Session involved spreadsheets, .xlsx files |
+
+### Skill Matching Process
+
+1. **Analyze Session Patterns**: What types of tasks were performed?
+   - Document processing? → Check `docx`, `pdf`, `pptx`, `xlsx`
+   - Frontend/UI work? → Check `frontend-design`, `canvas-design`, `theme-factory`
+   - Testing? → Check `webapp-testing`
+   - Building integrations? → Check `mcp-builder`
+   - Creating skills? → Check `skill-creator`
+
+2. **Check Currently Installed Skills**:
+   ```bash
+   ls ~/.claude/skills/  # User-level skills
+   ls .claude/skills/    # Project-level skills
+   ```
+
+3. **Fetch Latest Descriptions**: For any matching skills, fetch the current SKILL.md from:
+   ```
+   https://raw.githubusercontent.com/anthropics/skills/main/skills/{skill-name}/SKILL.md
+   ```
+
+4. **Present Recommendations**:
+   ```
+   ## Skill Recommendations
+
+   Based on this session, these Anthropic skills may help:
+
+   1. **frontend-design** - You worked on UI components
+      → Provides: Design patterns, component templates, accessibility guidelines
+      → Install: `/plugin install frontend-design@anthropic-agent-skills`
+
+   2. **webapp-testing** - You discussed testing approaches
+      → Provides: Testing workflows, browser automation patterns
+      → Install: `/plugin install webapp-testing@anthropic-agent-skills`
+
+   Would you like me to install any of these? (specify by number or 'all')
+   ```
+
+### Installation Methods
+
+**Via Claude Code Plugin System (Recommended):**
+```bash
+# Register the Anthropic skills marketplace (one-time)
+/plugin marketplace add anthropics/skills
+
+# Install specific skills
+/plugin install {skill-name}@anthropic-agent-skills
+```
+
+**Via Direct Copy (for customization):**
+```bash
+# Fetch skill to project
+mkdir -p .claude/skills/{skill-name}
+curl -o .claude/skills/{skill-name}/SKILL.md \
+  https://raw.githubusercontent.com/anthropics/skills/main/skills/{skill-name}/SKILL.md
+
+# Also fetch any bundled resources if needed
+# Check the skill's directory structure at:
+# https://github.com/anthropics/skills/tree/main/skills/{skill-name}
+```
+
+### Post-Installation
+
+After installing a skill:
+
+1. **Update CLAUDE.md**: Add the skill to the "Active Skills" section
+2. **Test the skill**: Run a task that should trigger it
+3. **Capture learnings**: Note any project-specific customizations needed
+
+### Skills Mode (`/learn --skills`)
+
+Run skill discovery only (skip memory routing):
+
+```
+## Skill Discovery Results
+
+### Session Analysis
+- Tasks performed: {list of task types}
+- Technologies used: {list of techs}
+- Pain points: {what was difficult}
+
+### Recommended Skills
+{numbered list with install commands}
+
+### Already Installed
+{list of matching installed skills}
+
+Would you like to install any recommended skills?
+```
+
+---
+
+## CLAUDE.md Updates
+
+**Always run this check** as part of `/learn` and `/learn --deep`. This step ensures CLAUDE.md stays current with learnings and follows Anthropic's latest best practices.
+
+### Fetch Latest Best Practices
+
+Before suggesting updates, fetch current Anthropic guidance:
+
+```
+Primary sources (check in order):
+1. https://code.claude.com/docs/en/memory
+2. https://www.anthropic.com/engineering/claude-code-best-practices
+```
+
+**Current Best Practices Summary** (fetch latest to verify):
+
+| Principle | Guidance |
+|-----------|----------|
+| **Be specific** | "Use 2-space indentation" not "Format code properly" |
+| **Keep concise** | Context window is shared; justify each token |
+| **Iterate** | Treat CLAUDE.md like production prompts—refine over time |
+| **Use emphasis** | Add "IMPORTANT" or "YOU MUST" for critical rules |
+| **Structure well** | Bullet points under descriptive markdown headings |
+
+**Recommended Sections** (per Anthropic docs):
+- Bash commands with descriptions
+- Core files and utility functions
+- Code style guidelines
+- Testing instructions
+- Repository etiquette (branches, merges)
+- Developer environment setup
+- Project-specific quirks
+- Workflow preferences
+
+### CLAUDE.md Update Routing Map
+
+| Learning Type | CLAUDE.md Section | Template |
+|---------------|-------------------|----------|
+| New entry point discovered | **Key Entry Points** table | `\| {Pattern} \| {path} \| {Purpose} \|` |
+| New skill installed | **Active Skills** section | See skill template below |
+| New memory created | **Current Memories** table | `\| {name} \| {purpose} \| {when to read} \|` |
+| Workflow improvement | **Common Workflows** section | Add/update workflow steps |
+| New bash command | **Quick Reference** or new section | `- \`{command}\`: {description}` |
+| Code convention discovered | **Code Conventions** section | Add bullet point |
+| Architecture insight | **Architecture Overview** section | Update description |
+| Gotcha/quirk found | **Troubleshooting** or new section | Add to common issues table |
+
+### Update Templates
+
+#### For Key Entry Points:
+```markdown
+| `{SymbolName}` | `{path/to/file.ts}` | {Brief purpose description} |
+```
+
+#### For Active Skills:
+```markdown
+#### Skill: {skill-name}
+- **Purpose**: {What this skill does}
+- **Use when**: {Specific scenarios that trigger it}
+- **Notes**: {Any project-specific configuration}
+```
+
+#### For Current Memories:
+```markdown
+| `{memory-name}` | {What it contains} | {When Claude should read it} |
+```
+
+#### For Bash Commands:
+```markdown
+- `{command}`: {What it does}
+```
+
+#### For Workflow Updates:
+```markdown
+### {Workflow Name}
+
+\`\`\`
+1. {Step 1}
+2. {Step 2}
+...
+\`\`\`
+```
+
+### CLAUDE.md Update Process
+
+1. **Analyze session** for CLAUDE.md-worthy learnings
+2. **Check current CLAUDE.md** for existing content (avoid duplicates)
+3. **Fetch latest best practices** from Anthropic docs
+4. **Generate updates** using templates above
+5. **Present to user**:
+
+```
+## CLAUDE.md Updates
+
+Based on this session and Anthropic's latest best practices:
+
+### Additions
+1. **Key Entry Points** - Add:
+   | `AuthService` | `src/services/auth.ts` | Authentication and token management |
+
+2. **Current Memories** - Add:
+   | `api-patterns` | REST API conventions | Before implementing endpoints |
+
+3. **Active Skills** - Add:
+   #### Skill: frontend-design
+   - **Purpose**: Build frontend interfaces with high design quality
+   - **Use when**: Creating UI components, pages, or web applications
+   - **Notes**: Installed via /learn skill suggestion
+
+### Modifications
+4. **Common Workflows > Debugging** - Update step 3:
+   - Old: "Form hypothesis"
+   - New: "Form hypothesis, verify with targeted reads"
+
+### Best Practice Suggestions
+5. **Code Conventions** - Section is missing (Anthropic recommends including this)
+   → Add section with discovered conventions?
+
+---
+
+Apply these updates? (y/n/select by number)
+```
+
+6. **If approved**: Apply edits to CLAUDE.md using Edit tool
+7. **Verify**: Confirm updates were applied correctly
+
+### Best Practice Compliance Check
+
+During `/learn --deep`, also check if CLAUDE.md follows Anthropic guidelines:
+
+```
+## CLAUDE.md Health Check
+
+Checking against Anthropic best practices...
+
+✅ Has bash commands section
+✅ Uses bullet points under headings
+⚠️  Missing: Code style guidelines section
+⚠️  Missing: Testing instructions
+✅ Concise (under 500 lines)
+⚠️  Could add emphasis: No "IMPORTANT" markers for critical rules
+
+Suggestions:
+1. Add "## Code Conventions" section
+2. Add "## Testing" section with test commands
+3. Add "IMPORTANT:" prefix to critical workflow rules
+
+Apply suggestions? (y/n)
+```
+
+### File Hierarchy Awareness
+
+Remember CLAUDE.md can exist at multiple levels:
+
+| Location | Scope | When to Update |
+|----------|-------|----------------|
+| `./CLAUDE.md` | Project team | Project-specific learnings |
+| `./.claude/CLAUDE.md` | Project team | Alternative location |
+| `~/.claude/CLAUDE.md` | Personal | Cross-project preferences |
+| `./CLAUDE.local.md` | Personal + project | Personal project prefs |
+
+**Default**: Update `./CLAUDE.md` (or `./.claude/CLAUDE.md` if that's the project pattern)
 
 ---
 
@@ -262,6 +596,8 @@ For `.specify/` and `.elimination/` files, use standard file operations (Read/Ed
 ```
 /learn                    → Quick: identify, route, ask before writing
 /learn --deep             → Full: comprehensive with templates
+/learn --skills           → Skills only: check for applicable Anthropic skills
+/learn --claude           → CLAUDE.md only: fetch best practices, update CLAUDE.md
 /learn "auth refactor"    → Focus on specific context
 ```
 

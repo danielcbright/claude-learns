@@ -8,6 +8,165 @@ Initiate systematic elimination-based debugging using the scientific method.
 
 This command implements Sherlock Holmes' famous maxim: "When you have eliminated the impossible, whatever remains, however improbable, must be the truth." It uses modus tollens logic - if hypothesis H predicts outcome O, and O is not observed, then H is eliminated.
 
+---
+
+## Script-Enforced Process
+
+**IMPORTANT:** This process is enforced by scripts to prevent deviation.
+
+### Available Scripts
+
+Located in `.claude/scripts/elimination/`:
+
+| Script | Purpose | When to Run |
+|--------|---------|-------------|
+| `eliminate_init.py` | Initialize session | Start of investigation |
+| `eliminate_research.py` | Research hypotheses online | Before/during testing |
+| `eliminate_next.py` | Get next hypothesis to test | After each checkpoint |
+| `eliminate_checkpoint.py` | Record test, update confidences | After each test |
+| `eliminate_status.py` | View current state | Any time |
+| `eliminate_archive.py` | Archive completed session | End of investigation |
+
+### Script-Driven Workflow
+
+```bash
+# 1. Initialize session with hypotheses
+python .claude/scripts/elimination/eliminate_init.py \
+  --symptom "API returning 500 errors intermittently" \
+  --interactive
+
+# 2. RESEARCH: Get search queries and URLs for online research
+python .claude/scripts/elimination/eliminate_research.py --all
+
+# 3. Use WebSearch/WebFetch to investigate, then record findings
+python .claude/scripts/elimination/eliminate_research.py \
+  --hypothesis H1 \
+  --record '{"source": "GitHub Issue #1234", "summary": "Known race condition"}' \
+  --boost 0.15
+
+# 4. Get first hypothesis to test (research may have changed rankings)
+python .claude/scripts/elimination/eliminate_next.py
+
+# 5. After testing, record checkpoint (MUST update ALL hypotheses)
+python .claude/scripts/elimination/eliminate_checkpoint.py \
+  --test "Check DB connection pool" \
+  --evidence "Pool at 45%, normal" \
+  --updates "H1:0.15,H2:0.42,H3:0.38,H4:0.30,H5:0.25"
+
+# 6. Optionally research the next hypothesis before testing
+python .claude/scripts/elimination/eliminate_research.py --hypothesis H2
+
+# 7. Get next hypothesis (script determines this, not you!)
+python .claude/scripts/elimination/eliminate_next.py
+
+# 8. Repeat steps 5-7 until convergence
+
+# 9. Archive when done
+python .claude/scripts/elimination/eliminate_archive.py \
+  --outcome success \
+  --confirmed H3 \
+  --root-cause "Race condition in shared cache"
+```
+
+### Process Enforcement
+
+The scripts enforce correct behavior:
+
+- **`eliminate_checkpoint.py`** will **REFUSE** to proceed unless ALL active hypotheses have updated confidences
+- **`eliminate_next.py`** tells you EXACTLY which hypothesis to test - removes your discretion
+- **`eliminate_status.py`** validates process adherence and flags violations
+
+---
+
+## Research Phase
+
+**IMPORTANT:** Before testing hypotheses, research online to find supporting evidence. This can significantly boost confidence and save testing time.
+
+### When to Research
+
+| Timing | Benefit |
+|--------|---------|
+| After hypothesis generation | Validate hypotheses, find known issues |
+| Before testing a hypothesis | Find existing solutions, known fixes |
+| When hypothesis has high confidence | Seek confirmation from others |
+| When stuck | Discover approaches you haven't tried |
+
+### Research Sources
+
+The `eliminate_research.py` script generates search queries for:
+
+1. **GitHub Issues** - Find similar bugs, discussions, fixes
+2. **Stack Overflow** - Community solutions and explanations
+3. **Web Search** - Blog posts, tutorials, documentation
+
+### Using the Research Script
+
+```bash
+# Generate research plan for all hypotheses
+python .claude/scripts/elimination/eliminate_research.py --all
+
+# Research specific hypothesis
+python .claude/scripts/elimination/eliminate_research.py --hypothesis H1
+
+# Output as JSON (for programmatic use)
+python .claude/scripts/elimination/eliminate_research.py --all --json
+```
+
+### Executing Research with Claude Tools
+
+After getting search queries from the script, use Claude's tools:
+
+```
+# Web Search for general queries
+WebSearch: "race condition async cache Node.js"
+
+# Fetch GitHub Issues
+WebFetch: "https://github.com/search?q=race+condition+cache&type=issues"
+
+# Fetch Stack Overflow
+WebFetch: "https://stackoverflow.com/search?q=race+condition+node+cache"
+```
+
+### Recording Research Findings
+
+**IMPORTANT:** Record findings to update hypothesis confidence.
+
+```bash
+# Record finding with confidence boost
+python .claude/scripts/elimination/eliminate_research.py \
+  --hypothesis H1 \
+  --record '{
+    "source": "GitHub Issue #1234",
+    "url": "https://github.com/owner/repo/issues/1234",
+    "summary": "Exact same error, confirmed race condition in cache layer",
+    "relevance": "high",
+    "has_fix": true
+  }' \
+  --boost 0.15
+```
+
+### Confidence Boost Guidelines
+
+| Finding Quality | Boost |
+|-----------------|-------|
+| Exact error message match + same stack | 0.15-0.20 |
+| Similar issue in same framework | 0.10-0.15 |
+| Related issue, different context | 0.05-0.10 |
+| General information, tangentially related | 0.00-0.05 |
+
+**Max boost per finding: 0.20** (to prevent over-reliance on research)
+
+### Research Best Practices
+
+1. **Search before testing** - Don't reinvent the wheel
+2. **Include tech stack** - "Node.js Express" not just "server error"
+3. **Try multiple queries** - Error messages, symptoms, hypothesis descriptions
+4. **Check issue status** - Closed issues often have solutions
+5. **Note versions** - Solutions may be version-specific
+6. **Record everything** - Even negative findings are valuable
+
+---
+
 ## Workflow
 
 ### Phase 1: Hypothesis Generation (2-3 minutes)
@@ -104,6 +263,113 @@ Stop eliminating when ANY of:
 2. **Multiple evidence required**: Need 2-3 confirmatory tests before hard elimination
 3. **Resurrection allowed**: Track rollback info to restore hypotheses if new evidence emerges
 4. **Complete hypothesis space**: The true cause must be among generated hypotheses
+
+---
+
+## IMPORTANT: Process Adherence Rules
+
+**YOU MUST follow the systematic process. Do not deviate.**
+
+### After Eliminating a Hypothesis
+
+When you eliminate a hypothesis (soft or hard):
+
+1. **DO NOT** immediately start testing a new idea that just occurred to you
+2. **DO NOT** jump to implementing a fix until convergence criteria are met
+3. **DO** proceed to the NEXT hypothesis on your ranked list
+4. **DO** update the status table and continue the Evidence Gathering Loop
+
+### State Machine (Follow This Exactly)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    ELIMINATION STATE MACHINE                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  START → Generate Hypotheses → Rank by Information Gain        │
+│                                       │                         │
+│                                       ▼                         │
+│                         ┌─────────────────────────┐             │
+│                         │  Pick NEXT hypothesis   │◄────────┐   │
+│                         │  from ranked list       │         │   │
+│                         └───────────┬─────────────┘         │   │
+│                                     │                       │   │
+│                                     ▼                       │   │
+│                         ┌─────────────────────────┐         │   │
+│                         │  Design & execute test  │         │   │
+│                         └───────────┬─────────────┘         │   │
+│                                     │                       │   │
+│                                     ▼                       │   │
+│                         ┌─────────────────────────┐         │   │
+│                         │  Update ALL hypothesis  │         │   │
+│                         │  confidences            │         │   │
+│                         └───────────┬─────────────┘         │   │
+│                                     │                       │   │
+│                                     ▼                       │   │
+│                         ┌─────────────────────────┐         │   │
+│                    NO   │  Convergence criteria   │  NO     │   │
+│              ┌──────────┤  met?                   ├─────────┘   │
+│              │          └───────────┬─────────────┘             │
+│              │                      │ YES                       │
+│              ▼                      ▼                           │
+│   ┌───────────────────┐   ┌─────────────────────┐              │
+│   │ More hypotheses?  │   │  VERIFY top hypothesis│              │
+│   │ If NO: expand     │   │  (implement & test)  │              │
+│   │ hypothesis space  │   └─────────────────────┘              │
+│   └───────────────────┘                                        │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Anti-Patterns to Avoid
+
+❌ **Shiny Object Syndrome**: "While testing H1, I noticed something about X, let me investigate that instead..."
+   → STOP. Log the observation as a potential new hypothesis, continue with current test.
+
+❌ **Premature Fix Attempt**: "H1 is eliminated, and I have a hunch about H3, let me just try fixing it..."
+   → STOP. You must gather evidence on H2 first (unless H3 is next in your ranked list).
+
+❌ **Abandoning the List**: "The first hypothesis was wrong, let me think of completely new possibilities..."
+   → STOP. You already generated hypotheses in Phase 1. Work through them systematically.
+
+❌ **Skipping Updates**: Eliminating H1 without updating the confidence scores of ALL hypotheses.
+   → Evidence often affects multiple hypotheses. Update all confidences after each test.
+
+### Checkpoint After Each Test
+
+After EVERY test, explicitly state:
+
+```
+## Test {N} Complete
+
+**Evidence**: {what was observed}
+
+**Hypothesis Updates**:
+| ID | Hypothesis | Previous | New | Status |
+|----|------------|----------|-----|--------|
+| H1 | ...        | 0.70     | 0.15| SOFT ELIMINATED |
+| H2 | ...        | 0.40     | 0.45| active |
+| H3 | ...        | 0.35     | 0.35| active |
+
+**Convergence Check**:
+- Leading hypothesis: H2 (0.45)
+- Separation margin: 0.10 (need > 0.30)
+- Status: NOT CONVERGED
+
+**Next Action**: Test H2 (highest remaining confidence)
+```
+
+### If You Feel the Urge to Deviate
+
+1. **Pause** and acknowledge the urge
+2. **Log** the new idea as a potential hypothesis addition
+3. **Ask yourself**: "Have I completed the current Evidence Gathering Loop iteration?"
+4. **If NO**: Complete the current iteration first
+5. **If YES and idea is valuable**: Add hypothesis via `/hypothesis` command, re-rank, continue
+
+### User Can Override
+
+If the user explicitly says "skip to H5" or "try this instead", follow their direction. But without explicit user override, **stay on the systematic path**.
 
 ## Example Session
 
