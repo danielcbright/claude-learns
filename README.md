@@ -1,3 +1,13 @@
+```
+     ▗▄▖               ▗▖          ▗▄▖
+     ▝▜▌               ▐▌          ▝▜▌
+ ▟██▖ ▐▌   ▟██▖▐▌ ▐▌ ▟█▟▌ ▟█▙       ▐▌   ▟█▙  ▟██▖ █▟█▌▐▙██▖▗▟██▖
+▐▛  ▘ ▐▌   ▘▄▟▌▐▌ ▐▌▐▛ ▜▌▐▙▄▟▌      ▐▌  ▐▙▄▟▌ ▘▄▟▌ █▘  ▐▛ ▐▌▐▙▄▖▘
+▐▌    ▐▌  ▗█▀▜▌▐▌ ▐▌▐▌ ▐▌▐▛▀▀▘ ██▌  ▐▌  ▐▛▀▀▘▗█▀▜▌ █   ▐▌ ▐▌ ▀▀█▖
+▝█▄▄▌ ▐▙▄ ▐▙▄█▌▐▙▄█▌▝█▄█▌▝█▄▄▌      ▐▙▄ ▝█▄▄▌▐▙▄█▌ █   ▐▌ ▐▌▐▄▄▟▌
+ ▝▀▀   ▀▀  ▀▀▝▘ ▀▀▝▘ ▝▀▝▘ ▝▀▀        ▀▀  ▝▀▀  ▀▀▝▘ ▀   ▝▘ ▝▘ ▀▀▀
+```
+
 # claude-learns
 
 A template for creating self-learning Claude Code projects with persistent memory and context management.
@@ -12,6 +22,91 @@ claude-learns helps Claude Code remember context across sessions and continuousl
 - **Self-Learning System**: Claude identifies patterns and insights, then offers to save them
 - **Slash Commands**: Pre-built workflows for common development tasks
 - **MCP Integration Ready**: Works with Serena, Context7, and other MCP servers
+
+### Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [QUICKSTART.md](QUICKSTART.md) | Get productive in 5 minutes |
+| [FAQ.md](FAQ.md) | Common questions answered |
+| [EXAMPLES.md](EXAMPLES.md) | Real-world usage scenarios |
+
+---
+
+## Architecture
+
+### How It All Fits Together
+
+```mermaid
+graph TB
+    subgraph "Your Project"
+        CLAUDE[CLAUDE.md<br/>Project Config]
+
+        subgraph ".serena/memories/"
+            MEM[Persistent Knowledge<br/>debugging-lessons.md<br/>decision-log.md<br/>...]
+        end
+
+        subgraph ".claude/commands/"
+            CMD[Slash Commands<br/>/go, /debug, /learn<br/>/eliminate, /spec-*]
+        end
+
+        subgraph ".elimination/"
+            ELIM[Debugging Sessions<br/>hypotheses, evidence<br/>archived investigations]
+        end
+
+        subgraph ".specify/"
+            SPEC[Specifications<br/>feature specs<br/>deviations, templates]
+        end
+    end
+
+    CLAUDE -->|configures| MEM
+    CLAUDE -->|configures| CMD
+    CMD -->|read/write| MEM
+    CMD -->|manage| ELIM
+    CMD -->|manage| SPEC
+    ELIM -.->|learns from| MEM
+    SPEC -.->|integrates with| ELIM
+```
+
+### Workflow Decision Tree
+
+```mermaid
+flowchart TD
+    START([Need to do something?])
+
+    START --> FEAT{New feature?}
+    START --> BUG{Bug to fix?}
+    START --> EXPLORE{Understand code?}
+    START --> TASK{General task?}
+
+    FEAT -->|Yes| SPECCREATE["/spec-create<br/>Define requirements"]
+    SPECCREATE --> GO1["/go implement<br/>Build the feature"]
+    GO1 --> SPECVERIFY["/spec-verify<br/>Verify completion"]
+
+    BUG -->|Simple| DEBUG["/debug<br/>Linear investigation"]
+    BUG -->|Complex/Multiple causes| ELIM["/eliminate<br/>Hypothesis testing"]
+    ELIM --> EVIDENCE["/evidence<br/>Gather data"]
+    EVIDENCE --> STATUS["/eliminate-status<br/>Check progress"]
+    STATUS -->|Not found| EVIDENCE
+    STATUS -->|Found| FIX[Fix the issue]
+
+    EXPLORE --> EXP["/explore<br/>Systematic discovery"]
+    EXP --> LEARN1["/learn<br/>Save insights"]
+
+    TASK --> GO2["/go [task]<br/>Best practices"]
+    GO2 --> LEARN2["/learn<br/>Capture knowledge"]
+
+    DEBUG --> FIX
+    FIX --> LEARN3["/learn<br/>Document lesson"]
+    SPECVERIFY --> LEARN4["/learn<br/>Save patterns"]
+
+    style SPECCREATE fill:#e1f5fe
+    style ELIM fill:#fff3e0
+    style EXP fill:#e8f5e9
+    style GO2 fill:#f3e5f5
+```
+
+---
 
 ## Quick Start
 
