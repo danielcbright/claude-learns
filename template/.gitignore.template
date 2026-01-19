@@ -1,7 +1,4 @@
-# Development notes and suggestions
-SUGGESTIONS.md
-
-# Claude Code / Serena
+# Claude Code / Serena MCP
 .serena/
 .elimination/active/
 .specify/reports/
@@ -28,13 +25,13 @@ Thumbs.db
 # Log files
 *.log
 
-# Node.js (if applicable)
+# Node.js
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Python (if applicable)
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -43,13 +40,11 @@ __pycache__/
 env/
 venv/
 ENV/
-env.bak/
-venv.bak/
+.venv/
 
 # Build outputs
 dist/
 build/
 *.exe
 *.dll
-*.so
 *.dylib

@@ -54,6 +54,29 @@ FROM (template/)              TO (target project)
 └── template/CLAUDE.md        → [target]/CLAUDE.md
 ```
 
+### Step 1b: Update .gitignore
+
+Add Claude-specific entries to the target project's `.gitignore`:
+
+```bash
+# If target has no .gitignore, copy the template:
+cp template/.gitignore.template [target]/.gitignore
+
+# If target already has .gitignore, append Claude entries:
+cat >> [target]/.gitignore << 'EOF'
+
+# Claude Code / Serena MCP
+.serena/
+.elimination/active/
+.specify/reports/
+EOF
+```
+
+Key entries explained:
+- `.serena/` - MCP server state (machine-specific)
+- `.elimination/active/` - Active debugging sessions (ephemeral)
+- `.specify/reports/` - Generated verification reports
+
 ### Step 2: Copy and Customize CLAUDE.md
 
 1. Copy `template/CLAUDE.md` to target project root
