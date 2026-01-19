@@ -24,14 +24,14 @@ Scan for:
 
 ### Complexity Check
 
-**Consider `/eliminate` immediately if:**
+**Consider `/claude-learns.eliminate` immediately if:**
 - Issue is **intermittent** or timing-dependent
 - **Multiple systems** could be involved
 - Symptom is **vague** ("sometimes it doesn't work")
 - You've seen this pattern fail simple debugging before
 
 ```
-/eliminate [symptom description]
+/claude-learns.eliminate [symptom description]
 ```
 
 ---
@@ -79,14 +79,14 @@ claude mcp add sequential-thinking -- npx -y @anthropic/mcp-sequential-thinking
 
 ### Escalate to /eliminate
 
-Consider switching to `/eliminate` (scientific elimination debugging) when:
+Consider switching to `/claude-learns.eliminate` (scientific elimination debugging) when:
 - **Multiple possible causes exist** and you can't narrow down quickly
 - **Initial debugging hasn't found root cause** after 10-15 minutes
 - **Issue is intermittent** or timing-dependent
 - **You need to track hypotheses** systematically with confidence scores
 
 ```
-/eliminate [symptom description]
+/claude-learns.eliminate [symptom description]
 ```
 
 This uses Bayesian reasoning to systematically eliminate hypotheses until
@@ -104,7 +104,7 @@ If this reveals a common pitfall:
 write_memory("debugging_[issue_type]", lessons_learned)
 ```
 
-Consider running `/learn` to route insights to the appropriate memory.
+Consider running `/claude-learns.learn` to route insights to the appropriate memory.
 
 ---
 

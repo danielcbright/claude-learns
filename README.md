@@ -47,7 +47,7 @@ graph TB
         end
 
         subgraph ".claude/commands/"
-            CMD[Slash Commands<br/>/go, /debug, /learn<br/>/eliminate, /spec-*]
+            CMD[Slash Commands<br/>/go, /debug<br/>/claude-learns.*]
         end
 
         subgraph ".elimination/"
@@ -79,26 +79,26 @@ flowchart TD
     START --> EXPLORE{Understand code?}
     START --> TASK{General task?}
 
-    FEAT -->|Yes| SPECCREATE["/spec-create<br/>Define requirements"]
+    FEAT -->|Yes| SPECCREATE["/claude-learns.spec-create<br/>Define requirements"]
     SPECCREATE --> GO1["/go implement<br/>Build the feature"]
-    GO1 --> SPECVERIFY["/spec-verify<br/>Verify completion"]
+    GO1 --> SPECVERIFY["/claude-learns.spec-verify<br/>Verify completion"]
 
     BUG -->|Simple| DEBUG["/debug<br/>Linear investigation"]
-    BUG -->|Complex/Multiple causes| ELIM["/eliminate<br/>Hypothesis testing"]
-    ELIM --> EVIDENCE["/evidence<br/>Gather data"]
-    EVIDENCE --> STATUS["/eliminate-status<br/>Check progress"]
+    BUG -->|Complex/Multiple causes| ELIM["/claude-learns.eliminate<br/>Hypothesis testing"]
+    ELIM --> EVIDENCE["/claude-learns.evidence<br/>Gather data"]
+    EVIDENCE --> STATUS["/claude-learns.eliminate-status<br/>Check progress"]
     STATUS -->|Not found| EVIDENCE
     STATUS -->|Found| FIX[Fix the issue]
 
     EXPLORE --> EXP["/explore<br/>Systematic discovery"]
-    EXP --> LEARN1["/learn<br/>Save insights"]
+    EXP --> LEARN1["/claude-learns.learn<br/>Save insights"]
 
     TASK --> GO2["/go [task]<br/>Best practices"]
-    GO2 --> LEARN2["/learn<br/>Capture knowledge"]
+    GO2 --> LEARN2["/claude-learns.learn<br/>Capture knowledge"]
 
     DEBUG --> FIX
-    FIX --> LEARN3["/learn<br/>Document lesson"]
-    SPECVERIFY --> LEARN4["/learn<br/>Save patterns"]
+    FIX --> LEARN3["/claude-learns.learn<br/>Document lesson"]
+    SPECVERIFY --> LEARN4["/claude-learns.learn<br/>Save patterns"]
 
     style SPECCREATE fill:#e1f5fe
     style ELIM fill:#fff3e0
@@ -202,38 +202,38 @@ claude-learns/
 
 | Command | Purpose |
 |---------|---------|
-| `/install` | Install this template to a target project |
-| `/update [tool]` | Update tools and template with git safety |
+| `/claude-learns.install` | Install this template to a target project |
+| `/claude-learns.update [tool]` | Update tools and template with git safety |
 | `/go [task]` | Start task following best practices |
 | `/explore [area]` | Systematically explore codebase area |
 | `/debug [issue]` | Debug issue with structured approach |
 | `/refactor [target]` | Safe refactoring workflow |
-| `/learn` | Trigger learning loop review |
-| `/audit` | Audit documentation for staleness |
-| `/skills` | Re-discover and update skills |
+| `/claude-learns.learn` | Trigger learning loop review |
+| `/claude-learns.audit` | Audit documentation for staleness |
+| `/claude-learns.skills` | Re-discover and update skills |
 
 ### Scientific Elimination Debugging
 
 | Command | Purpose |
 |---------|---------|
-| `/eliminate [symptom]` | Start elimination-based debugging session |
-| `/hypothesis [desc]` | Add hypothesis to active investigation |
-| `/evidence [H#] [obs]` | Record evidence for hypothesis evaluation |
-| `/eliminate-status` | View current investigation state |
-| `/eliminate-history` | Search past debugging sessions |
-| `/bisect` | Git bisect integration for commit-level elimination |
+| `/claude-learns.eliminate [symptom]` | Start elimination-based debugging session |
+| `/claude-learns.hypothesis [desc]` | Add hypothesis to active investigation |
+| `/claude-learns.evidence [H#] [obs]` | Record evidence for hypothesis evaluation |
+| `/claude-learns.eliminate-status` | View current investigation state |
+| `/claude-learns.eliminate-history` | Search past debugging sessions |
+| `/claude-learns.bisect` | Git bisect integration for commit-level elimination |
 
 ### Specification-Driven Development
 
 | Command | Purpose |
 |---------|---------|
-| `/spec-create [name]` | Create feature specification |
-| `/spec-validate [name]` | Validate implementation against spec |
-| `/spec-debug [name] [symptom]` | Debug using spec as source of truth |
-| `/spec-deviation [name]` | Log intentional spec deviation |
-| `/spec-list` | List all specifications |
-| `/spec-verify [name]` | Verify with evidence before claiming done |
-| `/spec-correction` | Capture correction when claim was wrong |
+| `/claude-learns.spec-create [name]` | Create feature specification |
+| `/claude-learns.spec-validate [name]` | Validate implementation against spec |
+| `/claude-learns.spec-debug [name] [symptom]` | Debug using spec as source of truth |
+| `/claude-learns.spec-deviation [name]` | Log intentional spec deviation |
+| `/claude-learns.spec-list` | List all specifications |
+| `/claude-learns.spec-verify [name]` | Verify with evidence before claiming done |
+| `/claude-learns.spec-correction` | Capture correction when claim was wrong |
 
 ## Scientific Elimination Debugging
 
@@ -245,7 +245,7 @@ A systematic approach to debugging based on the scientific method and Bayesian r
 
 ### When to Use
 
-Use `/eliminate` instead of `/debug` when:
+Use `/claude-learns.eliminate` instead of `/debug` when:
 - Multiple possible causes exist
 - Initial debugging hasn't found root cause
 - Issue is intermittent or timing-dependent
@@ -300,14 +300,14 @@ Specifications serve as the source of truth. When behavior doesn't match the spe
 
 | Scenario | Command |
 |----------|---------|
-| Starting new feature | `/spec-create` first |
-| Checking implementation | `/spec-validate` |
-| Debugging specced feature | `/spec-debug` |
-| Intentional behavior change | `/spec-deviation` |
+| Starting new feature | `/claude-learns.spec-create` first |
+| Checking implementation | `/claude-learns.spec-validate` |
+| Debugging specced feature | `/claude-learns.spec-debug` |
+| Intentional behavior change | `/claude-learns.spec-deviation` |
 
 ### Integration with Elimination Debugging
 
-`/spec-debug` combines specification analysis with elimination debugging:
+`/claude-learns.spec-debug` combines specification analysis with elimination debugging:
 1. Loads the feature specification
 2. Compares expected vs actual behavior
 3. Generates hypotheses from spec deviations (elevated confidence: 0.70)
@@ -333,7 +333,7 @@ This creates an ever-improving knowledge base for your project.
 
 ## Update System
 
-Keep your tools and template up to date with the `/update` command:
+Keep your tools and template up to date with the `/claude-learns.update` command:
 
 ```bash
 /update                     # Check all tools for updates
@@ -346,7 +346,7 @@ Keep your tools and template up to date with the `/update` command:
 ### Safety Features
 
 - **Git checkpoint**: Creates a commit before any update
-- **Rollback**: Use `/update --rollback` to undo updates
+- **Rollback**: Use `/claude-learns.update --rollback` to undo updates
 - **Protected files**: Your memories and specs are never modified
 - **Web-based**: Always fetches latest instructions from source
 
@@ -424,7 +424,7 @@ claude-learns/
 2. Test commands naturally (they modify root files)
 3. Sync changes to `template/` when satisfied
 4. Ensure `template/` has placeholders, not dev-specific content
-5. Test installation with `/install test-projects/minimal-js`
+5. Test installation with `/claude-learns.install test-projects/minimal-js`
 
 See `DEVELOPMENT.md` for full details.
 

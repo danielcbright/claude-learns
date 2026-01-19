@@ -4,7 +4,7 @@ This document contains update instructions and changelog for the claude-learns t
 
 ## How to Update
 
-Use the `/update` command to safely update your installation:
+Use the `/claude-learns.update` command to safely update your installation:
 
 ```bash
 /update                     # Check for updates (dry run)
@@ -17,7 +17,7 @@ Use the `/update` command to safely update your installation:
 ### Safety Features
 
 - **Git checkpoint**: A commit is created before any update
-- **Rollback**: Use `/update --rollback` to undo updates
+- **Rollback**: Use `/claude-learns.update --rollback` to undo updates
 - **Protected files**: Your memories and specs are never modified
 - **Conflict detection**: You're asked before overwriting modified files
 
@@ -43,32 +43,32 @@ Initial release of claude-learns template.
 - `/explore` - Systematically explore codebase
 - `/debug` - Structured debugging approach
 - `/refactor` - Safe refactoring workflow
-- `/learn` - Learning loop with intelligent routing
-- `/audit` - Documentation audit
-- `/skills` - Skill discovery
+- `/claude-learns.learn` - Learning loop with intelligent routing
+- `/claude-learns.audit` - Documentation audit
+- `/claude-learns.skills` - Skill discovery
 
 **Scientific Elimination Debugging (6)**
-- `/eliminate` - Start elimination-based debugging
-- `/hypothesis` - Add hypothesis to investigation
-- `/evidence` - Record evidence for hypothesis
-- `/eliminate-status` - View investigation state
-- `/eliminate-history` - Search past sessions
-- `/bisect` - Git bisect integration
+- `/claude-learns.eliminate` - Start elimination-based debugging
+- `/claude-learns.hypothesis` - Add hypothesis to investigation
+- `/claude-learns.evidence` - Record evidence for hypothesis
+- `/claude-learns.eliminate-status` - View investigation state
+- `/claude-learns.eliminate-history` - Search past sessions
+- `/claude-learns.bisect` - Git bisect integration
 
 **Specification System (7)**
-- `/spec-create` - Create feature specification
-- `/spec-validate` - Validate implementation
-- `/spec-debug` - Debug with spec context
-- `/spec-deviation` - Log intentional deviation
-- `/spec-verify` - Verification gate before claiming done
-- `/spec-correction` - Capture corrections
-- `/spec-list` - List all specifications
+- `/claude-learns.spec-create` - Create feature specification
+- `/claude-learns.spec-validate` - Validate implementation
+- `/claude-learns.spec-debug` - Debug with spec context
+- `/claude-learns.spec-deviation` - Log intentional deviation
+- `/claude-learns.spec-verify` - Verification gate before claiming done
+- `/claude-learns.spec-correction` - Capture corrections
+- `/claude-learns.spec-list` - List all specifications
 
 **Update System (1)**
-- `/update` - Update tools and template safely
+- `/claude-learns.update` - Update tools and template safely
 
 **Installation (1)**
-- `/install` - Install template to target project
+- `/claude-learns.install` - Install template to target project
 
 #### Memory System
 
@@ -90,7 +90,7 @@ Initial release of claude-learns template.
 
 ## Protected Files
 
-These files are NEVER modified by `/update`:
+These files are NEVER modified by `/claude-learns.update`:
 
 | Path | Content |
 |------|---------|
@@ -115,7 +115,7 @@ No breaking changes (initial release).
 
 ### From Pre-1.0 (Manual Installation)
 
-If you installed claude-learns before the `/update` command existed:
+If you installed claude-learns before the `/claude-learns.update` command existed:
 
 1. Create the update registry:
    ```bash
@@ -125,7 +125,7 @@ If you installed claude-learns before the `/update` command existed:
 
 2. Your existing memories and customizations are safe - they won't be touched.
 
-3. Run `/update claude-learns` to get latest commands.
+3. Run `/claude-learns.update claude-learns` to get latest commands.
 
 ---
 
@@ -148,7 +148,7 @@ This will:
 
 ## Manual Update (If /update Fails)
 
-If the `/update` command itself has issues:
+If the `/claude-learns.update` command itself has issues:
 
 1. **Create a backup**:
    ```bash
@@ -166,7 +166,7 @@ If the `/update` command itself has issues:
 
 3. **Verify**:
    ```bash
-   /audit
+   /claude-learns.audit
    ```
 
 ---
@@ -176,7 +176,7 @@ If the `/update` command itself has issues:
 If you encounter problems with updates:
 
 1. Check rollback is available: `cat .claude/update-checkpoint.txt`
-2. Rollback if needed: `/update --rollback`
+2. Rollback if needed: `/claude-learns.update --rollback`
 3. Report issue: https://github.com/danielcbright/claude-learns/issues
 
 Include:

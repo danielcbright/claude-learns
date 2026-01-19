@@ -60,15 +60,15 @@ After setup, try these commands:
 ```
 /mcp                           # Should show MCP server status
 /go hello world               # Should respond with a plan
-/learn                        # Should offer to save session insights
+/claude-learns.learn                        # Should offer to save session insights
 ```
 
 **Expected output:**
 - `/mcp`: Shows connected servers or "No MCP servers configured" (both are normal)
 - `/go`: Claude should acknowledge and start working on the task
-- `/learn`: Should review the session and offer memory updates
+- `/claude-learns.learn`: Should review the session and offer memory updates
 
-**Pro tip**: Run `/learn` after your first few tasks to build up project knowledge for future sessions.
+**Pro tip**: Run `/claude-learns.learn` after your first few tasks to build up project knowledge for future sessions.
 
 If commands aren't recognized, check that `.claude/commands/` was copied correctly.
 
@@ -97,7 +97,7 @@ Claude will:
 | `/go [task]` | Start any task with best practices |
 | `/debug [issue]` | Systematic debugging |
 | `/explore [area]` | Understand code you're unfamiliar with |
-| `/learn` | Save insights from current session |
+| `/claude-learns.learn` | Save insights from current session |
 
 ---
 
@@ -118,7 +118,7 @@ Claude will:
 **For debugging:**
 ```
 /debug why the tests are failing
-/eliminate intermittent login failures
+/claude-learns.eliminate intermittent login failures
 ```
 
 ---
