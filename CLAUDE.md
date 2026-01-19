@@ -54,6 +54,8 @@ This project uses a persistent memory system to help Claude learn and improve ov
 
 ### Tool Priority Order
 
+**IMPORTANT:** Always follow this order to minimize token usage:
+
 1. **First**: Check `list_memories()` for relevant context
 2. **Then**: Use `get_symbols_overview()` for file structure (if using Serena MCP)
 3. **Then**: Use `find_symbol()` for targeted lookups (if using Serena MCP)
@@ -74,9 +76,12 @@ This project uses a persistent memory system to help Claude learn and improve ov
 
 ### Token Efficiency
 
-- **Never** read entire files unless absolutely necessary
+**IMPORTANT:** Context window is a shared resource. Every token counts.
+
+- **NEVER** read entire files unless absolutely necessary
 - Use targeted symbol lookups over full file reads
 - Leverage memories to avoid re-exploring the same areas
+- Prefer `find_symbol()` with `include_body=True` over `read_file()`
 
 ---
 
@@ -319,12 +324,35 @@ Would you like me to make these updates?
 
 ### Code Conventions
 
-```
-[Document coding standards]
-- Naming conventions
-- File organization
-- Import ordering
-```
+<!-- IMPORTANT: Customize these for your project. Be specific per Anthropic guidance. -->
+
+**Naming:**
+- Variables/functions: `camelCase` (JS/TS) or `snake_case` (Python)
+- Classes/types: `PascalCase`
+- Constants: `SCREAMING_SNAKE_CASE`
+- Files: `kebab-case.ts` or `snake_case.py`
+
+**Imports:**
+- Group by: stdlib → external packages → internal modules
+- Sort alphabetically within groups
+- Prefer named imports over default imports
+
+**File Organization:**
+- One component/class per file (exceptions: closely related utilities)
+- Co-locate tests with source: `foo.ts` → `foo.test.ts`
+- Keep files under 300 lines; split if larger
+
+**Code Style:**
+- [INDENTATION]: [e.g., 2 spaces for JS/TS, 4 spaces for Python]
+- [LINE_LENGTH]: [e.g., 100 characters max]
+- [QUOTES]: [e.g., single quotes for JS, double for Python]
+- Trailing commas: yes (for cleaner diffs)
+- Semicolons: [yes/no based on project]
+
+**Comments:**
+- Explain "why", not "what"
+- Use JSDoc/docstrings for public APIs
+- TODO format: `// TODO(username): description`
 
 ### Testing Strategy
 
@@ -410,7 +438,7 @@ For bugs in features with specifications:
 
 ### Verification Before Claiming Done
 
-**MANDATORY**: Never claim implementation is complete without running `/spec-verify` first.
+**IMPORTANT: YOU MUST run `/spec-verify` before claiming any implementation is complete.**
 
 Requirements before saying "done":
 1. Run `/spec-verify [feature]`
@@ -424,6 +452,8 @@ If ANY criterion fails:
 - Repeat until all pass
 
 ### Evidence Quality
+
+**IMPORTANT:** Evidence must be concrete and verifiable, not assumptions.
 
 **Good Evidence (Concrete)**:
 ```
@@ -652,6 +682,10 @@ Use `/eliminate` instead of `/debug` when:
 ## Changelog
 
 <!-- Track CLAUDE.md evolution here -->
+- **2026-01-19**: Added Code Conventions section with specific guidelines per Anthropic best practices
+- **2026-01-19**: Added IMPORTANT markers to critical rules (token efficiency, verification, evidence)
+- **2026-01-19**: Enhanced /learn to update CLAUDE.md and fetch Anthropic best practices
+- **2026-01-19**: Added skill-creator skill and Anthropic skills discovery to /learn
 - **2026-01-18**: Added /update command for safe tool and template updates with git checkpoints
 - **2026-01-18**: Added comprehensive Serena MCP Tools Reference section
 - **2026-01-18**: Added dual-location architecture decisions to decision-log memory
