@@ -1,81 +1,167 @@
 Always follow these practices for this task:
 
-## Step 0: Verify Working Location
+## Step 0: MCP & Environment Check
 
-Before modifying code, verify you're in the correct project directory.
+**BEFORE doing anything else, verify your tools are available.**
 
 ```
-Location Verification:
+Environment Verification:
+- [ ] Run /mcp to check MCP server status
+- [ ] Confirm Serena is connected (if not, suggest installing it)
 - [ ] Check: pwd && git branch --show-current
 - [ ] Confirm: Is this the correct project/branch for this task?
-- [ ] If uncertain (<95% confidence): ASK user before proceeding
 ```
 
-**If uncertain, ask:**
-> "Current location: [path], branch: [branch]. Should I work here or switch to a different location?"
-
-## Step 0.5: Task Analysis
-
-**Analyze the task type and suggest the appropriate workflow:**
-
-### If NEW FEATURE:
-```
-For non-trivial features, consider starting with:
-/claude-learns.spec-create [feature-name]
-
-This creates a specification with acceptance criteria before implementation,
-enabling proper verification with /claude-learns.spec-verify when done.
+If Serena is NOT connected and the task involves code:
+```bash
+claude mcp add serena -- uvx --from git+https://github.com/oraios/serena serena start-mcp-server --context claude-code --project $(pwd)
 ```
 
-### If DEBUGGING / FIXING A BUG:
-```
-For bugs, use the dedicated debugging workflows:
-/debug [issue]      - Systematic debugging with memory consultation
-/claude-learns.eliminate [issue]  - Scientific elimination for complex/intermittent bugs
+**If uncertain about location, ask:**
+> "Current location: [path], branch: [branch]. Should I work here or switch?"
 
-These check past debugging lessons and known bug patterns first.
-```
+---
 
-### If EXPLORING UNFAMILIAR CODE:
-```
-For unfamiliar areas, start with exploration:
-/explore [area]
+## Step 1: Read Context
 
-This systematically maps the codebase area before making changes,
-reducing risk of unintended side effects.
-```
+**MUST read memories before exploring code.**
 
-### If REFACTORING:
-```
-For refactoring, use the safe refactoring workflow:
-/refactor [target]
+```python
+# Check available memories
+list_memories()
 
-This maps impact, makes incremental changes, and verifies with tests.
+# Read essential memories for this task type
+read_memory("claude_code_patterns")     # Always
+read_memory("serena-tools-reference")   # If unsure about tools
+read_memory("debugging-lessons")        # If debugging
+read_memory("decision-log")             # If architectural changes
 ```
 
 ---
 
-## Tool Usage
-- Use **Serena** for all code navigation and editing (find_symbol, find_referencing_symbols, get_symbols_overview, replace_symbol_body)
-- Use **Context7** for external library/framework documentation lookups
-- Use **Sequential Thinking** for complex architectural decisions or debugging strategies
-- Check `/mcp` if tools seem unavailable and suggest enabling them
+## Step 2: Task Analysis
 
-## Before Starting
-1. Read the CLAUDE.md file in the project root
-2. Check `list_memories()` and read relevant project memories
-3. Use `get_symbols_overview()` to understand affected areas
+**Analyze the task and suggest the appropriate workflow:**
 
-## During Work
-- Navigate code semantically (find_symbol) not by reading entire files
-- Edit with precision (replace_symbol_body, insert_after_symbol) not full file rewrites
-- Trace relationships (find_referencing_symbols) before modifying shared code
+### NEW FEATURE:
+```
+Consider starting with:
+/claude-learns.spec-create [feature-name]
 
-## After Changes
-- Run tests and linting
-- Check `git diff` to verify changes
-- Update memories if new patterns were established
-- For features with specs: Run `/claude-learns.spec-verify` before claiming done
+Creates specification with acceptance criteria.
+Enables verification with /claude-learns.spec-verify when done.
+```
+
+### DEBUGGING / FIXING A BUG:
+```
+Use dedicated debugging workflows:
+/debug [issue]                    - Systematic debugging
+/claude-learns.eliminate [issue]  - Scientific elimination for complex bugs
+
+These check past debugging lessons first.
+```
+
+### EXPLORING UNFAMILIAR CODE:
+```
+Start with exploration:
+/explore [area]
+
+Maps the codebase area before making changes.
+```
+
+### REFACTORING:
+```
+Use safe refactoring workflow:
+/refactor [target]
+
+Maps impact, makes incremental changes, verifies with tests.
+```
+
+---
+
+## Step 3: Tool Usage Rules
+
+**YOU MUST follow these rules. Serena provides semantic understanding; built-in tools see text.**
+
+### Decision Tree
+
+```
+READING CODE:
+  Need to understand a file?
+    → FIRST: get_symbols_overview(path)
+    → THEN: find_symbol(name, include_body=True) for specific parts
+    → NEVER: Read entire files unless non-code (config, docs)
+
+  Need to find a function/class?
+    → MUST USE: find_symbol("ClassName") or find_symbol("ClassName/method")
+    → NOT: grep, search, or reading files hoping to find it
+
+  Need to find who calls something?
+    → MUST USE: find_referencing_symbols(name, path)
+    → NOT: grep for the function name
+
+EDITING CODE:
+  Replacing a function/method body?
+    → MUST USE: replace_symbol_body(name_path, file, new_body)
+    → NEVER: Full file rewrites or Edit tool on code files
+
+  Adding new code after existing?
+    → MUST USE: insert_after_symbol(name_path, file, code)
+
+  Adding imports or code before something?
+    → MUST USE: insert_before_symbol(name_path, file, code)
+
+  Renaming across codebase?
+    → MUST USE: rename_symbol(name_path, file, new_name)
+
+  Editing non-code files (config, docs)?
+    → USE: replace_content(path, needle, replacement, mode)
+
+SEARCHING:
+  Looking for patterns in code?
+    → USE: search_for_pattern(regex, relative_path="src/")
+    → NOT: grep or bash find commands
+```
+
+### Tool Priority Order
+
+1. **Memories first** → `list_memories()` then `read_memory(name)`
+2. **Understand structure** → `get_symbols_overview(path)`
+3. **Find specific code** → `find_symbol(pattern)`
+4. **Find relationships** → `find_referencing_symbols(name, path)`
+5. **Pattern search** → `search_for_pattern(regex)` (fallback)
+6. **File reads** → `read_file(path)` (last resort, non-code only)
+
+### Other MCPs
+
+- **Context7**: For external library/framework documentation
+- **Sequential Thinking**: For complex architectural decisions
+
+For detailed tool docs: `read_memory("serena-tools-reference")`
+
+---
+
+## Step 4: Execute Task
+
+**During work:**
+- Navigate code semantically (`find_symbol`) not by reading entire files
+- Edit with precision (`replace_symbol_body`, `insert_after_symbol`)
+- Trace relationships (`find_referencing_symbols`) before modifying shared code
+- Keep edits minimal and focused
+
+---
+
+## Step 5: Verify & Complete
+
+**After changes:**
+- [ ] Run tests and linting
+- [ ] Check `git diff` to verify changes are correct
+- [ ] Update memories if new patterns were established
+- [ ] For features with specs: Run `/claude-learns.spec-verify` before claiming done
+
+**IMPORTANT: Evidence must be concrete, not assumptions.**
+- ✅ "Test output: PASS - 15 assertions"
+- ❌ "I believe this works"
 
 ---
 

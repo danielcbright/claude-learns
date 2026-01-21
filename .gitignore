@@ -1,10 +1,15 @@
 # Development notes and suggestions
 SUGGESTIONS.md
 
-# Claude Code / Serena
+# Claude Code / Serena (root-level are dev files, ignored)
 .serena/
 .elimination/active/
 .specify/reports/
+
+# But template/ versions should be tracked (they're distributed)
+!template/.serena/
+!template/.elimination/
+!template/.specify/
 
 # Environment files
 .env
