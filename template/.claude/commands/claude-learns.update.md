@@ -303,7 +303,7 @@ Rollback: /claude-learns.update --rollback
 ### Recommended Next Steps
 1. Run /claude-learns.audit to verify documentation consistency
 2. Run /mcp to verify MCP servers
-3. Test key commands: /go, /learn, /eliminate
+3. Test key commands: /claude-learns.go, /learn, /eliminate
 ```
 
 ---

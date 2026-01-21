@@ -158,9 +158,9 @@ edit_memory("name", old, new, mode)  # Edit in place
 
 | Command | Purpose |
 |---------|---------|
-| `/go [task]` | Start task with best practices |
-| `/explore [area]` | Systematically explore code area |
-| `/debug [issue]` | Structured debugging |
+| `/claude-learns.go [task]` | Start task with best practices |
+| `/claude-learns.explore [area]` | Systematically explore code area |
+| `/claude-learns.debug [issue]` | Structured debugging |
 | `/claude-learns.eliminate [symptom]` | Scientific debugging for complex bugs |
 | `/claude-learns.spec-create [name]` | Create feature specification |
 | `/claude-learns.spec-verify [name]` | Verify before claiming done |
@@ -220,7 +220,7 @@ claude-learns/
 |--------|----------|---------|
 | `/claude-learns.install` | `.claude/commands/install.md` | Template installation |
 | `/claude-learns.learn` | `.claude/commands/learn.md` | Learning loop |
-| `/go` | `.claude/skills/go.md` | Task starter |
+| `/claude-learns.go` | `.claude/skills/go.md` | Task starter |
 
 ---
 

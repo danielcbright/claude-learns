@@ -55,7 +55,7 @@ Enables verification with /claude-learns.spec-verify when done.
 ### DEBUGGING / FIXING A BUG:
 ```
 Use dedicated debugging workflows:
-/debug [issue]                    - Systematic debugging
+/claude-learns.debug [issue]                    - Systematic debugging
 /claude-learns.eliminate [issue]  - Scientific elimination for complex bugs
 
 These check past debugging lessons first.
@@ -64,7 +64,7 @@ These check past debugging lessons first.
 ### EXPLORING UNFAMILIAR CODE:
 ```
 Start with exploration:
-/explore [area]
+/claude-learns.explore [area]
 
 Maps the codebase area before making changes.
 ```
@@ -72,7 +72,7 @@ Maps the codebase area before making changes.
 ### REFACTORING:
 ```
 Use safe refactoring workflow:
-/refactor [target]
+/claude-learns.refactor [target]
 
 Maps impact, makes incremental changes, verifies with tests.
 ```

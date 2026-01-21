@@ -137,13 +137,13 @@ files:
   # Updateable with conflict detection
   updateable:
     # Commands
-    - path: ".claude/commands/go.md"
+    - path: ".claude/commands/claude-learns.go.md"
       checksum: "sha256:..."
-    - path: ".claude/commands/debug.md"
+    - path: ".claude/commands/claude-learns.debug.md"
       checksum: "sha256:..."
-    - path: ".claude/commands/explore.md"
+    - path: ".claude/commands/claude-learns.explore.md"
       checksum: "sha256:..."
-    - path: ".claude/commands/refactor.md"
+    - path: ".claude/commands/claude-learns.refactor.md"
       checksum: "sha256:..."
     - path: ".claude/commands/claude-learns.learn.md"
       checksum: "sha256:..."
@@ -179,7 +179,7 @@ files:
 # Original checksums for conflict detection
 # (checksum of file as shipped in previous version)
 original_checksums:
-  ".claude/commands/go.md": "sha256:original_hash..."
+  ".claude/commands/claude-learns.go.md": "sha256:original_hash..."
 ```
 
 ### Update Flow

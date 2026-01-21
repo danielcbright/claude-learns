@@ -165,7 +165,7 @@ After completing installation and verification, report to user:
 1. Review and customize CLAUDE.md for your project
 2. [If needed] Install Serena MCP
 3. [If skipped] Edit .specify/memory/constitution.md
-4. Test with: /go [small task]
+4. Test with: /claude-learns.go [small task]
 
 ### Quick Test Commands
 - /learn              → Verify routing works

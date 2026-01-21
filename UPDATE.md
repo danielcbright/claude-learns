@@ -70,10 +70,10 @@ Initial release of claude-learns template.
 #### Features
 
 **Core Commands (7)**
-- `/go` - Start tasks with best practices
-- `/explore` - Systematically explore codebase
-- `/debug` - Structured debugging approach
-- `/refactor` - Safe refactoring workflow
+- `/claude-learns.go` - Start tasks with best practices
+- `/claude-learns.explore` - Systematically explore codebase
+- `/claude-learns.debug` - Structured debugging approach
+- `/claude-learns.refactor` - Safe refactoring workflow
 - `/claude-learns.learn` - Learning loop with intelligent routing
 - `/claude-learns.audit` - Documentation audit
 - `/claude-learns.skills` - Skill discovery

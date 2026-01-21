@@ -47,7 +47,7 @@ graph TB
         end
 
         subgraph ".claude/commands/"
-            CMD[Slash Commands<br/>/go, /debug<br/>/claude-learns.*]
+            CMD[Slash Commands<br/>/claude-learns.go, /claude-learns.debug<br/>/claude-learns.*]
         end
 
         subgraph ".elimination/"
@@ -80,20 +80,20 @@ flowchart TD
     START --> TASK{General task?}
 
     FEAT -->|Yes| SPECCREATE["/claude-learns.spec-create<br/>Define requirements"]
-    SPECCREATE --> GO1["/go implement<br/>Build the feature"]
+    SPECCREATE --> GO1["/claude-learns.go implement<br/>Build the feature"]
     GO1 --> SPECVERIFY["/claude-learns.spec-verify<br/>Verify completion"]
 
-    BUG -->|Simple| DEBUG["/debug<br/>Linear investigation"]
+    BUG -->|Simple| DEBUG["/claude-learns.debug<br/>Linear investigation"]
     BUG -->|Complex/Multiple causes| ELIM["/claude-learns.eliminate<br/>Hypothesis testing"]
     ELIM --> EVIDENCE["/claude-learns.evidence<br/>Gather data"]
     EVIDENCE --> STATUS["/claude-learns.eliminate-status<br/>Check progress"]
     STATUS -->|Not found| EVIDENCE
     STATUS -->|Found| FIX[Fix the issue]
 
-    EXPLORE --> EXP["/explore<br/>Systematic discovery"]
+    EXPLORE --> EXP["/claude-learns.explore<br/>Systematic discovery"]
     EXP --> LEARN1["/claude-learns.learn<br/>Save insights"]
 
-    TASK --> GO2["/go [task]<br/>Best practices"]
+    TASK --> GO2["/claude-learns.go [task]<br/>Best practices"]
     GO2 --> LEARN2["/claude-learns.learn<br/>Capture knowledge"]
 
     DEBUG --> FIX
@@ -151,10 +151,10 @@ claude-learns/
 │   ├── settings.local.json      # Local permissions
 │   └── commands/                # Slash commands
 │       ├── install.md           # /install - Install template
-│       ├── go.md                # /go [task] - Start with best practices
-│       ├── explore.md           # /explore [area] - Explore codebase
-│       ├── debug.md             # /debug [issue] - Systematic debugging
-│       ├── refactor.md          # /refactor [target] - Safe refactoring
+│       ├── go.md                # /claude-learns.go [task] - Start with best practices
+│       ├── explore.md           # /claude-learns.explore [area] - Explore codebase
+│       ├── debug.md             # /claude-learns.debug [issue] - Systematic debugging
+│       ├── refactor.md          # /claude-learns.refactor [target] - Safe refactoring
 │       ├── learn.md             # /learn - Learning loop review
 │       ├── audit.md             # /audit - Documentation audit
 │       ├── skills.md            # /skills - Discover skills
@@ -204,10 +204,10 @@ claude-learns/
 |---------|---------|
 | `/claude-learns.install` | Install this template to a target project |
 | `/claude-learns.update [tool]` | Update tools and template with git safety |
-| `/go [task]` | Start task following best practices |
-| `/explore [area]` | Systematically explore codebase area |
-| `/debug [issue]` | Debug issue with structured approach |
-| `/refactor [target]` | Safe refactoring workflow |
+| `/claude-learns.go [task]` | Start task following best practices |
+| `/claude-learns.explore [area]` | Systematically explore codebase area |
+| `/claude-learns.debug [issue]` | Debug issue with structured approach |
+| `/claude-learns.refactor [target]` | Safe refactoring workflow |
 | `/claude-learns.learn` | Trigger learning loop review |
 | `/claude-learns.audit` | Audit documentation for staleness |
 | `/claude-learns.skills` | Re-discover and update skills |
@@ -258,7 +258,7 @@ The orchestrator cycles through agents until convergence (leading hypothesis > 9
 
 ### When to Use
 
-Use `/claude-learns.eliminate` instead of `/debug` when:
+Use `/claude-learns.eliminate` instead of `/claude-learns.debug` when:
 - Multiple possible causes exist
 - Initial debugging hasn't found root cause
 - Issue is intermittent or timing-dependent
