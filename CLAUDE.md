@@ -169,6 +169,8 @@ edit_memory("name", old, new, mode)  # Edit in place
 | `/claude-learns.ralph-status` | Check ralph session status |
 | `/claude-learns.install [path]` | Install template to target project |
 | `/claude-learns.update [tool]` | Update tools with git safety |
+| `/claude-learns.optimize [area]` | Analyze and optimize for context efficiency |
+| `/claude-learns.audit` | Check accuracy and completeness |
 
 ### Completion Standards
 

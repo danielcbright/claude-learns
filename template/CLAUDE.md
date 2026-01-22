@@ -163,6 +163,8 @@ edit_memory("name", old, new, mode)  # Edit in place
 | `/claude-learns.learn` | Trigger learning loop |
 | `/claude-learns.ralph [task]` | Start autonomous ralph-loop with learning |
 | `/claude-learns.ralph-status` | Check ralph session status |
+| `/claude-learns.optimize [area]` | Analyze and optimize for context efficiency |
+| `/claude-learns.audit` | Check accuracy and completeness |
 
 ### Completion Standards
 
