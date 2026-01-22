@@ -59,13 +59,13 @@ After setup, try these commands:
 
 ```
 /mcp                           # Should show MCP server status
-/go hello world               # Should respond with a plan
+/claude-learns.go hello world               # Should respond with a plan
 /claude-learns.learn                        # Should offer to save session insights
 ```
 
 **Expected output:**
 - `/mcp`: Shows connected servers or "No MCP servers configured" (both are normal)
-- `/go`: Claude should acknowledge and start working on the task
+- `/claude-learns.go`: Claude should acknowledge and start working on the task
 - `/claude-learns.learn`: Should review the session and offer memory updates
 
 **Pro tip**: Run `/claude-learns.learn` after your first few tasks to build up project knowledge for future sessions.
@@ -79,7 +79,7 @@ If commands aren't recognized, check that `.claude/commands/` was copied correct
 Try a simple task:
 
 ```
-/go fix the typo in README
+/claude-learns.go fix the typo in README
 ```
 
 Claude will:
@@ -94,9 +94,9 @@ Claude will:
 
 | Command | What it does |
 |---------|-------------|
-| `/go [task]` | Start any task with best practices |
-| `/debug [issue]` | Systematic debugging |
-| `/explore [area]` | Understand code you're unfamiliar with |
+| `/claude-learns.go [task]` | Start any task with best practices |
+| `/claude-learns.debug [issue]` | Systematic debugging |
+| `/claude-learns.explore [area]` | Understand code you're unfamiliar with |
 | `/claude-learns.learn` | Save insights from current session |
 
 ---
@@ -105,19 +105,19 @@ Claude will:
 
 **For new projects:**
 ```
-/go set up the basic project structure
-/go add error handling patterns
+/claude-learns.go set up the basic project structure
+/claude-learns.go add error handling patterns
 ```
 
 **For existing projects:**
 ```
-/explore the main application flow
-/go document the API endpoints
+/claude-learns.explore the main application flow
+/claude-learns.go document the API endpoints
 ```
 
 **For debugging:**
 ```
-/debug why the tests are failing
+/claude-learns.debug why the tests are failing
 /claude-learns.eliminate intermittent login failures
 ```
 
@@ -163,4 +163,4 @@ rm -rf .claude .serena .elimination .specify CLAUDE.md
 
 ---
 
-*That's it! Start with `/go` and let Claude learn your project.*
+*That's it! Start with `/claude-learns.go` and let Claude learn your project.*

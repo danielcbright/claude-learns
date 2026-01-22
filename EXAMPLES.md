@@ -147,7 +147,7 @@ JWT-based authentication for the Express API.
 ### Step 2: Implement with /go
 
 ```
-/go implement the user-authentication spec
+/claude-learns.go implement the user-authentication spec
 ```
 
 Claude:
@@ -227,7 +227,7 @@ Claude suggests saving:
 ### Step 1: Explore the Area
 
 ```
-/explore payment processing
+/claude-learns.explore payment processing
 ```
 
 Claude systematically explores:
@@ -260,7 +260,7 @@ Shall I save this as a memory?
 You want to understand the webhook handling:
 
 ```
-/go explain how stripe webhooks are processed
+/claude-learns.go explain how stripe webhooks are processed
 ```
 
 Claude reads the specific files and explains:
@@ -317,7 +317,7 @@ Now future sessions start with this context.
 ### Step 1: Plan the Refactor
 
 ```
-/refactor rename UserService to AccountService
+/claude-learns.refactor rename UserService to AccountService
 ```
 
 Claude analyzes impact:
@@ -461,7 +461,7 @@ Developer decision, 2024-01-15
 
 Team lead runs:
 ```
-/go document the service communication patterns
+/claude-learns.go document the service communication patterns
 /learn
 ```
 
@@ -496,7 +496,7 @@ Claude creates `.serena/memories/service-architecture.md`:
 
 New developer gets instant context:
 ```
-/explore how services communicate
+/claude-learns.explore how services communicate
 ```
 
 Claude loads shared memories and explains:
@@ -591,7 +591,7 @@ cp claude-learns/template/CLAUDE.md ./
 Move your mental model into structured memories:
 
 ```
-/go create a memory documenting our API design decisions
+/claude-learns.go create a memory documenting our API design decisions
 ```
 
 Claude asks clarifying questions and creates:
@@ -616,7 +616,7 @@ Claude asks clarifying questions and creates:
 ```
 
 ```
-/go document the database schema patterns
+/claude-learns.go document the database schema patterns
 ```
 
 ### Step 3: Convert Ad-hoc Workflows
@@ -637,7 +637,7 @@ Replace manual processes with commands:
 **After (structured):**
 ```
 /claude-learns.spec-create user-profiles
-/go implement the user-profiles spec
+/claude-learns.go implement the user-profiles spec
 /claude-learns.spec-verify user-profiles
 ```
 
@@ -674,11 +674,11 @@ You don't need everything at once:
 
 | Week 1 | Week 2+ | When Needed |
 |--------|---------|-------------|
-| `/go` | `/explore` | `/claude-learns.eliminate` |
-| `/claude-learns.learn` | `/debug` | `/claude-learns.spec-create` |
+| `/claude-learns.go` | `/claude-learns.explore` | `/claude-learns.eliminate` |
+| `/claude-learns.learn` | `/claude-learns.debug` | `/claude-learns.spec-create` |
 | | `/claude-learns.audit` | `/claude-learns.spec-verify` |
 
-Start with `/go` and `/claude-learns.learn`. Add more commands as you encounter situations where they help.
+Start with `/claude-learns.go` and `/claude-learns.learn`. Add more commands as you encounter situations where they help.
 
 **Rollback Plan**: If you want to return to manual Claude usage, simply delete the added directories:
 ```bash
@@ -693,12 +693,12 @@ Your project code remains unchanged.
 | Scenario | Commands Used | Key Benefit |
 |----------|---------------|-------------|
 | Complex debugging | `/claude-learns.eliminate`, `/claude-learns.evidence` | Systematic hypothesis tracking |
-| New features | `/claude-learns.spec-create`, `/go`, `/claude-learns.spec-verify` | Clear definition of done |
-| Understanding code | `/explore`, `/claude-learns.learn` | Persistent knowledge |
-| Refactoring | `/refactor`, `/claude-learns.learn` | Safe changes with verification |
+| New features | `/claude-learns.spec-create`, `/claude-learns.go`, `/claude-learns.spec-verify` | Clear definition of done |
+| Understanding code | `/claude-learns.explore`, `/claude-learns.learn` | Persistent knowledge |
+| Refactoring | `/claude-learns.refactor`, `/claude-learns.learn` | Safe changes with verification |
 | Spec debugging | `/claude-learns.spec-debug`, `/claude-learns.spec-deviation` | Spec as source of truth |
-| Team collaboration | `/go`, `/claude-learns.learn`, `/claude-learns.eliminate` | Shared persistent knowledge |
-| Manual migration | `/claude-learns.install`, `/go`, `/claude-learns.learn` | Gradual structured adoption |
+| Team collaboration | `/claude-learns.go`, `/claude-learns.learn`, `/claude-learns.eliminate` | Shared persistent knowledge |
+| Manual migration | `/claude-learns.install`, `/claude-learns.go`, `/claude-learns.learn` | Gradual structured adoption |
 
 ---
 

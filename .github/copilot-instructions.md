@@ -47,8 +47,8 @@ test-projects/       # Installation test targets
 ```
 
 ### Command Patterns
-- `/go [task]` - Start with best practices
-- `/debug` vs `/claude-learns.eliminate` - Use elimination for multi-cause issues
+- `/claude-learns.go [task]` - Start with best practices
+- `/claude-learns.debug` vs `/claude-learns.eliminate` - Use elimination for multi-cause issues
 - `/claude-learns.spec-*` commands - For feature development workflow
 - `/claude-learns.learn` - Capture insights after tasks
 

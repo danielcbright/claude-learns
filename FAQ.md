@@ -54,16 +54,16 @@ The core value works without MCPs. Serena MCP adds precise code navigation.
 
 ## Commands
 
-### What's the difference between `/debug` and `/claude-learns.eliminate`?
+### What's the difference between `/claude-learns.debug` and `/claude-learns.eliminate`?
 
-| Aspect | `/debug` | `/claude-learns.eliminate` |
+| Aspect | `/claude-learns.debug` | `/claude-learns.eliminate` |
 |--------|----------|--------------|
 | Best for | Single likely cause | Multiple possible causes |
 | Approach | Linear investigation | Parallel hypothesis testing |
 | Tracking | Ad-hoc | Structured YAML files |
 | When stuck | Switch to `/claude-learns.eliminate` | Keep gathering evidence |
 
-**Use `/debug`** for straightforward bugs.
+**Use `/claude-learns.debug`** for straightforward bugs.
 **Use `/claude-learns.eliminate`** when you've been stuck, the bug is intermittent, or multiple subsystems could be responsible.
 
 ### When should I use `/claude-learns.spec-create`?

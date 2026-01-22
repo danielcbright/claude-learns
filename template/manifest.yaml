@@ -27,13 +27,13 @@ files:
     # -------------------------------------------------------------------------
     # Commands - Core
     # -------------------------------------------------------------------------
-    - path: ".claude/commands/go.md"
+    - path: ".claude/commands/claude-learns.go.md"
       checksum: "sha256:f490cbf227bddd01bf3be4dd1c1e1191370fcc855d5c3b45fe815d6e944f732b"
-    - path: ".claude/commands/debug.md"
+    - path: ".claude/commands/claude-learns.debug.md"
       checksum: "sha256:51f585c456bea74f389eb50f7a20d9e8c4cf8cc4eb18c3eebfcbc7a6f10f81a9"
-    - path: ".claude/commands/explore.md"
+    - path: ".claude/commands/claude-learns.explore.md"
       checksum: "sha256:6d7c72d5bcb19883f8716e5a6a1d2f3e306bf92f42f86318eff9aee5186cbb9f"
-    - path: ".claude/commands/refactor.md"
+    - path: ".claude/commands/claude-learns.refactor.md"
       checksum: "sha256:ac08f442c1c4b8b111b1a34ea05aa7c3b24a0358ad986cc8317ec3c49d5ad253"
 
     # -------------------------------------------------------------------------
@@ -139,10 +139,10 @@ files:
 # ==========================================================================
 original_checksums:
   ".claude/commands/claude-learns.update.md": "sha256:329f7518eebac4a05266e7f33bf4959e21c8f10c1011b5c80c33e51bdaee4135"
-  ".claude/commands/go.md": "sha256:f490cbf227bddd01bf3be4dd1c1e1191370fcc855d5c3b45fe815d6e944f732b"
-  ".claude/commands/debug.md": "sha256:51f585c456bea74f389eb50f7a20d9e8c4cf8cc4eb18c3eebfcbc7a6f10f81a9"
-  ".claude/commands/explore.md": "sha256:6d7c72d5bcb19883f8716e5a6a1d2f3e306bf92f42f86318eff9aee5186cbb9f"
-  ".claude/commands/refactor.md": "sha256:ac08f442c1c4b8b111b1a34ea05aa7c3b24a0358ad986cc8317ec3c49d5ad253"
+  ".claude/commands/claude-learns.go.md": "sha256:f490cbf227bddd01bf3be4dd1c1e1191370fcc855d5c3b45fe815d6e944f732b"
+  ".claude/commands/claude-learns.debug.md": "sha256:51f585c456bea74f389eb50f7a20d9e8c4cf8cc4eb18c3eebfcbc7a6f10f81a9"
+  ".claude/commands/claude-learns.explore.md": "sha256:6d7c72d5bcb19883f8716e5a6a1d2f3e306bf92f42f86318eff9aee5186cbb9f"
+  ".claude/commands/claude-learns.refactor.md": "sha256:ac08f442c1c4b8b111b1a34ea05aa7c3b24a0358ad986cc8317ec3c49d5ad253"
   ".claude/commands/claude-learns.learn.md": "sha256:43279e5fc7abdee3dab2691917d8620e97217106ce909af6f286c3a10f8ae5be"
   ".claude/commands/claude-learns.audit.md": "sha256:a0805ff79dfda9adcf785101dbfad6ef314754db723207af53d44b715d36263d"
   ".claude/commands/claude-learns.skills.md": "sha256:0bcdc7b1ff4c5296dd8102b28a355e936056d78f57d0106f66d6d3d7cfae621c"

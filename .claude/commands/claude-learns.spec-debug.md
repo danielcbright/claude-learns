@@ -188,7 +188,7 @@ Added to debugging-lessons:
 | Scenario | Command |
 |----------|---------|
 | Bug in specced feature | `/claude-learns.spec-debug` |
-| Bug without spec | `/debug` or `/claude-learns.eliminate` |
+| Bug without spec | `/claude-learns.debug` or `/claude-learns.eliminate` |
 | Complex multi-cause issue | `/claude-learns.eliminate` (may call `/claude-learns.spec-debug` internally) |
 | Validating implementation | `/claude-learns.spec-validate` |
 

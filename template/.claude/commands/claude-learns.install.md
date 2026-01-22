@@ -193,7 +193,7 @@ Check that destination files/directories exist:
 1. Review and customize CLAUDE.md for your project
 2. [If Serena not connected] Install Serena MCP (command above)
 3. [If constitution skipped] Edit .specify/memory/constitution.md
-4. Test with: /go [small task]
+4. Test with: /claude-learns.go [small task]
 
 ### Quick Test
 Run these to verify installation:
