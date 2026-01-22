@@ -4,6 +4,66 @@
 
 Initiate systematic elimination-based debugging using the scientific method with subagent orchestration.
 
+---
+
+## Ralph-Loop Integration
+
+**CRITICAL**: Before starting elimination, check if this is being called from a ralph session.
+
+### Detect Ralph Context
+
+```python
+# Check for active ralph session
+list_memories()
+
+# Look for any memory named "ralph-*" with status: paused-elimination
+# If found, this elimination was triggered by ralph being stuck
+```
+
+If ralph context detected:
+1. **Read ralph session memory** to understand what was being attempted
+2. **Note the iteration** where ralph got stuck
+3. **After fix**: Update ralph session memory with:
+   - Fix description
+   - Patterns learned
+   - Status: `active` (signals ralph to resume)
+
+### Example Ralph Context
+
+```yaml
+# From ralph session memory
+Session: feature-auth-system
+Status: paused-elimination
+Current Iteration: 5
+Blocker:
+  symptom: "Tests failing with ECONNREFUSED"
+  error_count: 3
+  first_seen_iteration: 3
+```
+
+When elimination completes, write back:
+
+```python
+edit_memory("ralph-feature-auth-system", 
+  old="Status: paused-elimination",
+  new="Status: active",
+  mode="literal")
+
+edit_memory("ralph-feature-auth-system",
+  old="Blocker:",
+  new="""Blocker: RESOLVED
+Resolution:
+  symptom: "Tests failing with ECONNREFUSED"
+  root_cause: "Mock server not started before tests"
+  fix: "Added beforeAll() hook to start mock server"
+  iteration_resolved: 5
+  
+Patterns Discovered:""",
+  mode="literal")
+```
+
+---
+
 ## Overview
 
 This command implements Sherlock Holmes' famous maxim: "When you have eliminated the impossible, whatever remains, however improbable, must be the truth."
@@ -46,6 +106,30 @@ This command implements Sherlock Holmes' famous maxim: "When you have eliminated
 ---
 
 ## Orchestrator Workflow
+
+### Phase 0: Check Ralph Context (FIRST)
+
+```python
+# ALWAYS check for ralph context before anything else
+list_memories()
+
+# Look for memories matching "ralph-*" pattern
+# Read any that have status: paused-elimination
+
+for memory in memories:
+    if memory.startswith("ralph-") and "paused-elimination" in read_memory(memory):
+        # This elimination was triggered by ralph
+        ralph_context = read_memory(memory)
+        # Extract: session_name, iteration, blocker symptom
+        # Use this context to inform hypothesis generation
+```
+
+If ralph context found:
+- Note the session name for later update
+- Use the blocker symptom as the primary symptom
+- Consider patterns from ralph's progress log
+
+---
 
 ### Phase 1: Initialize
 
@@ -399,6 +483,61 @@ If `.elimination/active/session.yaml` exists:
 2. Ask user: "Active session found. Resume or start fresh?"
 3. If resume: continue from last checkpoint
 4. If fresh: archive current session first, then initialize new
+
+---
+
+## Returning to Ralph (After Completion)
+
+If this elimination was triggered from a ralph session:
+
+### 1. Update Ralph Session Memory
+
+```python
+# Read current ralph session
+read_memory("ralph-{session_name}")
+
+# Update status and add resolution
+edit_memory("ralph-{session_name}",
+  old="Status: paused-elimination",
+  new="Status: active",
+  mode="literal")
+
+# Add the blocker resolution and patterns learned
+edit_memory("ralph-{session_name}",
+  old="## Blockers Resolved",
+  new="""## Blockers Resolved
+
+### Blocker from Iteration {N}
+- **Symptom**: {original symptom}
+- **Root Cause**: {confirmed hypothesis description}
+- **Fix Applied**: {what was changed}
+- **Verified**: {yes/no with evidence}
+
+## Blockers Resolved""",
+  mode="literal")
+```
+
+### 2. Signal Ralph to Resume
+
+The status change to `active` signals ralph to:
+1. Read the updated session memory
+2. See the resolved blocker
+3. Continue from where it left off
+
+### 3. Commit Before Returning
+
+```bash
+git add -A
+git commit -m "fix: {root cause description}
+
+Elimination session: {session_id}
+Iterations: {count}
+Confirmed hypothesis: {id}
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+```
+
+The ralph loop will pick up from here on the next iteration.
 
 ---
 

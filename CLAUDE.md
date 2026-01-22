@@ -165,6 +165,8 @@ edit_memory("name", old, new, mode)  # Edit in place
 | `/claude-learns.spec-create [name]` | Create feature specification |
 | `/claude-learns.spec-verify [name]` | Verify before claiming done |
 | `/claude-learns.learn` | Trigger learning loop |
+| `/claude-learns.ralph [task]` | Start autonomous ralph-loop with learning |
+| `/claude-learns.ralph-status` | Check ralph session status |
 | `/claude-learns.install [path]` | Install template to target project |
 | `/claude-learns.update [tool]` | Update tools with git safety |
 
@@ -177,6 +179,48 @@ Evidence must be concrete:
 - ✅ "curl returned 200 with expected body"
 - ❌ "I believe this works"
 - ❌ "Should be fine"
+
+---
+
+## Ralph Loop Mode (Autonomous Iteration)
+
+Ralph-loop enables autonomous development - Claude works on a task iteratively until completion.
+
+### When to Use Ralph
+
+| Use Ralph | Don't Use Ralph |
+|-----------|-----------------|
+| Well-defined features with specs | Debugging (use `/claude-learns.eliminate`) |
+| Test-driven development | Exploratory work |
+| Batch operations | Design decisions |
+| Greenfield with clear criteria | Unclear success criteria |
+
+### Ralph + Claude-Learns Integration
+
+```
+/claude-learns.ralph "task" --spec feature-name --max-iterations 30
+```
+
+Each iteration:
+1. **READ** - Serena memories first (survives /clear)
+2. **WORK** - Follow CLAUDE.md tool rules
+3. **LEARN** - Write insights to memories
+4. **COMMIT** - Git commit with summary
+
+If stuck (same error 3x):
+- Auto-switches to `/claude-learns.eliminate`
+- Elimination finds root cause
+- Resumes ralph after fix
+
+### Key Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/claude-learns.ralph [task]` | Start ralph with claude-learns integration |
+| `/claude-learns.ralph-status` | Check session status |
+| `/cancel-ralph` | Stop the loop |
+
+For detailed guide: See `RALPH.md`
 
 ---
 
