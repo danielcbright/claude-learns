@@ -52,6 +52,12 @@ files:
       checksum: "sha256:0bcdc7b1ff4c5296dd8102b28a355e936056d78f57d0106f66d6d3d7cfae621c"
 
     # -------------------------------------------------------------------------
+    # Commands - Worktree Support
+    # -------------------------------------------------------------------------
+    - path: ".claude/commands/claude-learns.worktree-init.md"
+      checksum: "sha256:51d05fc91d126551a1446eb3e0b58420e0cd77df6ab99de63bbd88db9d47da3a"
+
+    # -------------------------------------------------------------------------
     # Commands - Elimination Debugging
     # -------------------------------------------------------------------------
     - path: ".claude/commands/claude-learns.bisect.md"
@@ -166,6 +172,7 @@ original_checksums:
   ".claude/commands/claude-learns.spec-validate.md": "sha256:5d64f0ce71cf58759a3bfc3c658801f8d976324e1738f8528bd61419d927e685"
   ".claude/commands/claude-learns.spec-verify.md": "sha256:d1024516ded9ea6f7f8da52decd19d27af525653cddc12eca8166531cfe4d951"
   ".claude/commands/claude-learns.update.md": "sha256:442826a50476384957ef2158171282bc33299421fa848dda979ce3614711cf4c"
+  ".claude/commands/claude-learns.worktree-init.md": "sha256:51d05fc91d126551a1446eb3e0b58420e0cd77df6ab99de63bbd88db9d47da3a"
   ".claude/scripts/elimination/eliminate_archive.py": "sha256:99ba3aa68005a0a2d5aff362216f7b35824b93b3ceec805ccb3b8b684fccfb1d"
   ".claude/scripts/elimination/eliminate_checkpoint.py": "sha256:1db36541f40052970e5c8f7889d58ceb56ebe6f080ab7520b9f297303b3a583f"
   ".claude/scripts/elimination/eliminate_init.py": "sha256:dce1368c27d014f5f2690423335f959799d24ae57f83bda3e5d827d2d518d0c4"

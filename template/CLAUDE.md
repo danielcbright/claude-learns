@@ -115,6 +115,7 @@ Memories persist across sessions. **Always check memories before exploring code.
 | `serena-tools-reference` | Full Serena tool documentation | When unsure about tool usage |
 | `debugging-lessons` | Past bugs and solutions | Before debugging |
 | `decision-log` | Architectural decisions | Before major changes |
+| `worktree_patterns` | Git worktree best practices | When using worktrees |
 
 ### Memory Commands
 
@@ -165,6 +166,7 @@ edit_memory("name", old, new, mode)  # Edit in place
 | `/claude-learns.ralph-status` | Check ralph session status |
 | `/claude-learns.optimize [area]` | Analyze and optimize for context efficiency |
 | `/claude-learns.audit` | Check accuracy and completeness |
+| `/claude-learns.worktree-init` | Initialize worktree for claude-learns |
 
 ### Completion Standards
 
@@ -217,6 +219,42 @@ If stuck (same error 3x):
 | `/cancel-ralph` | Stop the loop |
 
 For detailed guide: See `RALPH.md`
+
+---
+
+## Git Worktree Support
+
+If this project uses Git worktrees for parallel development, see `WORKTREES.md` for full guidance.
+
+### Quick Reference
+
+| Scenario | Command |
+|----------|---------|
+| Initialize worktree with isolated memory | `/claude-learns.worktree-init --mode isolated` |
+| Initialize worktree with shared memory | `/claude-learns.worktree-init --mode shared` |
+| Copy only Serena cache (fastest) | `/claude-learns.worktree-init --cache-only` |
+
+### Worktree Modes
+
+| Mode | Memory | Cache | Best For |
+|------|--------|-------|----------|
+| **isolated** | Copied | Copied | Independent features, experiments |
+| **shared** | Symlinked | Copied | Solo work on related branches |
+| **cache-only** | Copied | Symlinked | Large codebases, speed priority |
+
+### Key Considerations
+
+1. **One Claude Code session per worktree** - Never share sessions across worktrees
+2. **Check worktree status**: `git worktree list`
+3. **Serena cache**: Copy from main repo to avoid re-indexing large codebases
+4. **Memory isolation**: Use isolated mode when experimenting or unsure
+5. **Before removing worktree**: Sync valuable learnings back to main
+
+### Worktree-Aware Commands
+
+These commands verify worktree context before operating:
+- `/claude-learns.refactor` - Checks correct worktree before changes
+- `/claude-learns.worktree-init` - Configures worktree for claude-learns
 
 ---
 

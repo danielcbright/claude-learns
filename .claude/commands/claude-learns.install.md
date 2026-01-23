@@ -21,6 +21,47 @@ Ask the user for:
 2. **Project name** (for configurations)
 3. **Primary programming language(s)** (e.g., typescript, go, python)
 
+### Step 1.5: Detect Worktree Scenario
+
+Before proceeding, check if the target is a git worktree:
+
+```bash
+# In the target directory, check if it's a worktree
+cd [target]
+git rev-parse --git-dir 2>/dev/null
+# If output contains "worktrees", it's a worktree
+```
+
+**If target is a worktree**:
+
+```
+## Worktree Detected
+
+The target directory appears to be a git worktree:
+- Worktree path: [target]
+- Main repository: [detected-main-repo]
+
+For worktrees, use `/claude-learns.worktree-init` instead of `/claude-learns.install`.
+
+**Recommended workflow:**
+1. First, install claude-learns in the main repository:
+   cd [main-repo]
+   /claude-learns.install
+
+2. Then, initialize the worktree:
+   cd [target]
+   /claude-learns.worktree-init --mode isolated
+
+This ensures proper memory and cache sharing between worktrees.
+
+Would you like to:
+1. Install in the main repository first
+2. Continue with full installation in worktree anyway (not recommended)
+3. Cancel and manually run worktree-init
+```
+
+If user chooses option 2, proceed but add a warning to the final summary.
+
 ### Step 2: Read Installation Guide
 
 Read `INSTALL.md` in this template repository for detailed instructions.
@@ -59,7 +100,7 @@ Run health checks after copying files. **Output warnings but don't block install
 Check that `.claude/commands/` contains expected files:
 
 ```
-Expected commands (22 total):
+Expected commands (23 total):
 - go.md
 - explore.md
 - debug.md
@@ -69,6 +110,7 @@ Expected commands (22 total):
 - skills.md
 - update.md
 - install.md
+- worktree-init.md
 - eliminate.md
 - hypothesis.md
 - evidence.md
@@ -88,7 +130,7 @@ Output:
 ```
 ## Command Verification
 
-✅ Found 22/22 expected commands
+✅ Found 23/23 expected commands
    OR
 ⚠️ Missing commands: [list missing]
 ```
@@ -172,7 +214,7 @@ Check that destination files/directories exist:
 ## Installation Complete!
 
 ### Files Created
-- [target]/.claude/commands/ (22 commands)
+- [target]/.claude/commands/ (23 commands)
 - [target]/.claude/update-registry.yaml (for /claude-learns.update command)
 - [target]/.serena/memories/ (6 memory files)
 - [target]/.elimination/ (debugging system)
@@ -180,7 +222,7 @@ Check that destination files/directories exist:
 - [target]/CLAUDE.md
 
 ### Health Check Results
-- Commands: ✅ 22/22 installed
+- Commands: ✅ 23/23 installed
 - Update Registry: ✅ Created
 - Serena MCP: ✅ Connected / ⚠️ Not detected (see above)
 - Constitution: ✅ Configured / ⚠️ Skipped (configure later)
