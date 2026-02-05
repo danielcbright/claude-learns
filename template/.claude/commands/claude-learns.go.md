@@ -1,3 +1,6 @@
+# /claude-learns.go
+# /go
+
 Always follow these practices for this task:
 
 ## Step 0: MCP & Environment Check

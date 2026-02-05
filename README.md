@@ -209,8 +209,22 @@ claude-learns/
 | `/claude-learns.debug [issue]` | Debug issue with structured approach |
 | `/claude-learns.refactor [target]` | Safe refactoring workflow |
 | `/claude-learns.learn` | Trigger learning loop review |
+| `/claude-learns.status` | Show active sessions and recent activity |
 | `/claude-learns.audit` | Audit documentation for staleness |
+| `/claude-learns.optimize [area]` | Analyze and optimize for context efficiency |
 | `/claude-learns.skills` | Re-discover and update skills |
+
+### Command Aliases
+
+For convenience, frequently used commands have short aliases:
+
+| Alias | Full Command | Purpose |
+|-------|--------------|---------|
+| `/go` | `/claude-learns.go` | Start task with best practices |
+| `/learn` | `/claude-learns.learn` | Trigger learning loop review |
+| `/debug` | `/claude-learns.debug` | Systematic debugging workflow |
+
+Both forms work identically. Use aliases for speed, full names for clarity.
 
 ### Scientific Elimination Debugging
 

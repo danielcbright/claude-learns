@@ -1,7 +1,7 @@
 ---
 type: template
 name: claude-learns
-version: "1.1"
+version: "1.2"
 purpose: Self-learning Claude Code template with persistent memory
 install_guide: INSTALL.md
 repository: https://github.com/danielcbright/claude-learns

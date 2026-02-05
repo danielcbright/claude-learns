@@ -1,3 +1,6 @@
+# /claude-learns.debug
+# /debug
+
 Debug this issue systematically using available tools:
 
 ## Step 0: Check Past Knowledge

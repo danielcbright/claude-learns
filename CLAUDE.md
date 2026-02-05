@@ -1,7 +1,7 @@
 ---
 type: template
 name: claude-learns
-version: "1.1"
+version: "1.2"
 purpose: Self-learning Claude Code template with persistent memory
 install_guide: INSTALL.md
 repository: https://github.com/danielcbright/claude-learns
@@ -253,6 +253,36 @@ claude-learns/
 3. **Test installations** in `test-projects/` not in template/
 4. **Read DEVELOPMENT.md** before modifying template sync
 
+### Development Workflow
+
+**Testing Changes Locally:**
+```bash
+# Test template installation in a test project
+mkdir -p test-projects/test-install
+/claude-learns.install test-projects/test-install
+
+# Verify installation worked
+ls test-projects/test-install/.claude/
+ls test-projects/test-install/.serena/
+```
+
+**Syncing Root → Template:**
+- NEVER rsync blindly (read DEVELOPMENT.md first)
+- Root files are working copies
+- Template files must preserve [PLACEHOLDERS]
+
+**Before Committing:**
+```bash
+# Check git status (working copy, not template)
+git status
+
+# Verify no [PLACEHOLDERS] in root files
+grep -r "\[PROJECT_NAME\]" CLAUDE.md .claude/ .serena/
+
+# Verify template still has placeholders
+grep -r "\[PROJECT_NAME\]" template/
+```
+
 ### Code Conventions
 
 - Python scripts: PEP 8, type hints
@@ -304,5 +334,5 @@ Would you like me to make these updates?
 
 ---
 
-*Last Updated: 2026-01-21*
-*Template: claude-learns v1.1*
+*Last Updated: 2026-02-05*
+*Template: claude-learns v1.2*

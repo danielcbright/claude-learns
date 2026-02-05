@@ -1,0 +1,30 @@
+# Command Aliases Registry
+# Maps short aliases to full command names
+#
+# NOTE: Aliases work via H1 headers in command files.
+# This registry is for documentation/tooling only.
+
+aliases:
+  - short: "/go"
+    full: "/claude-learns.go"
+    description: "Start task with best practices"
+
+  - short: "/learn"
+    full: "/claude-learns.learn"
+    description: "Trigger learning loop review"
+
+  - short: "/debug"
+    full: "/claude-learns.debug"
+    description: "Systematic debugging workflow"
+
+  - short: "/eliminate"
+    full: "/claude-learns.eliminate"
+    description: "Scientific elimination debugging"
+
+  - short: "/hypothesis"
+    full: "/claude-learns.hypothesis"
+    description: "Add hypothesis to active investigation"
+
+  - short: "/evidence"
+    full: "/claude-learns.evidence"
+    description: "Record evidence for hypothesis"

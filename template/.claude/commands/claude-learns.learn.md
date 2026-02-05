@@ -1,4 +1,5 @@
 # /claude-learns.learn - Learning Loop with Intelligent Memory Routing
+# /learn
 
 Perform a learning loop review for this session, routing learnings to the correct memory locations.
 
